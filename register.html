@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>DrinkTubig: Mobile Based Water Refilling Stations Ordering and Delivery System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/metisMenu.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/slicknav.min.css">
+ 
+    <link rel="stylesheet" href="assets/css/typography.css">
+    <link rel="stylesheet" href="assets/css/default-css.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <!-- modernizr css -->
+    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+    <!-- login area start -->
+    <div class="login-area login-bg">
+        <div class="container-fluid p-0">
+            <div class="row no-gutters">
+                <div class="col-xl-4 offset-xl-8 col-lg-6 offset-lg-6">
+                    <div class="login-box-s2 ptb--100">
+                        <form>
+                            <div class="login-form-head" style="background-color:lightblue">
+                                <h4>Sign Up</h4>
+                                <p>Hello there, Please fill up your information</p>
+                            </div>
+                            <div class="login-form-body">
+                               <!--  <div class="form-gp">
+                                    <label for="exampleInputName1">Name</label>
+                                    <input type="text" id="user_name">
+                                    <i class="fa fa-user"></i>
+                                    <div></div>
+                                </div> -->
+                                <div class="form-gp">
+                                    <label for="exampleInputEmail1">Email address</label>
+                                    <input type="email" id="user_email">
+                                   <i class="fa fa-envelope-o"></i>
+                                    <div></div>
+                                </div>
+                                <div class="form-gp">
+                                    <label for="exampleInputPassword1">Password</label>
+                                    <input type="password" id="user_password">
+                                    <i class="fa fa-unlock-alt"></i>
+                                    <div></div>
+                                </div>
+                               <!--  <div class="form-gp">
+                                    <label for="exampleInputPassword2">Confirm Password</label>
+                                    <input type="password" id="exampleInputPassword2">
+                                    <i class="fa fa-unlock-alt"></i>
+                                    <div></div>
+                                </div>
+                                -->     <div class="submit-btn-area">
+                                        <button  id="submit" type="submit">Submit <i class="ti-arrow-right"></i></button>
+                                    </div>
+                                <div class="form-footer text-center mt-5">
+                                    <p class="text-muted">Already created an account? <a href="login.html">Sign In</a></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- login area end -->
+
+    <!-- jquery latest version -->
+    <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
+    <!-- bootstrap 4 js -->
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="assets/js/metisMenu.min.js"></script>
+    <script src="assets/js/jquery.slimscroll.min.js"></script>
+    <script src="assets/js/jquery.slicknav.min.js"></script>
+    
+    <!-- others plugins -->
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/scripts.js"></script>
+
+     <!-- firebase test -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+    <script src="assets/firebase-js/app.js"></script>
+
+    <script>
+        
+      
+        //Get Submit Form
+        let submitButton = document.getElementById('submit')
+
+        //Create Event Listener To Allow Form Submission
+        submitButton.addEventListener("click", (e) => {
+          //Prevent Default Form Submission Behavior
+         e.preventDefault();
+
+          //Get Form Values
+          // let name = document.getElementById('user_name').value
+          let email = document.getElementById('user_email').value
+          let password = document.getElementById('user_password').value
+
+         
+           firebase.auth().createUserWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            // Signed in 
+            var user = userCredential.user;
+            // ...
+          })
+          .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ..
+          });
+        })
+
+
+
+
+    </script>
+</body>
+
+</html>

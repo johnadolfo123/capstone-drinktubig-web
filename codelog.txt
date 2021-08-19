@@ -1,0 +1,74 @@
+code log for capstone drink tubig web
+
+7/19/2021
+
+Adolfo
+ - added new ui for drink tubig
+ - redesign dashboard for admin
+ - added tempo design for login page
+
+7/20/2021
+
+Adolfo
+ - added javascript function for login
+
+7/22/2021
+
+Adolfo
+ - Practice Github
+
+Laborte
+ - Practice Github
+ - design dashboard for business owner 
+
+Laborte
+ - done designing dashboard for business owner
+
+8/2/2021
+
+ Adolfo
+
+ - Rearrange files for admin, businessowner and login page
+ - Continue designing for the admin and business owner pages
+
+8/3/2021
+
+Adolfo
+
+ - Added forgot password page
+ - Added accounts page for admin
+ - Added stores page for admin
+ - Rearrange code structure for admin
+
+8/7/2021
+
+ - trying to add firebase data display into the system
+
+
+8/18/2021
+
+Adolfo 
+
+ - Temporarily hide the notifications
+
+ 8/19/2021
+
+ Adolfo
+
+ - Added new way to git push
+
+
+libraries, plugins and etc used for the project: 
+
+1. font awesome 4.7 - https://fontawesome.com/v4.7/icons/
+
+
+
+problems for this project: 
+
+Laborte
+
+1. web-drinktubig/administrator/logout-test.html guba ang design
+2. Cannot GET /administrator/accounts.html sa administrator/index.html
+
+
