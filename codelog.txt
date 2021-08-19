@@ -51,17 +51,16 @@ Adolfo
 
  - Temporarily hide the notifications
 
- 8/19/2021
+8/19/2021
 
  Adolfo
 
- - Added new way to git push
+ - Practice Github New way to push/pull codes
 
-
+ 
 libraries, plugins and etc used for the project: 
 
 1. font awesome 4.7 - https://fontawesome.com/v4.7/icons/
-
 
 
 problems for this project: 
