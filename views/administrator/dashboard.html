@@ -120,7 +120,7 @@
                                 <h4 class="user-name dropdown-toggle" data-toggle="dropdown" style="color:black"> John Armand Adolfo <i class="fa fa-angle-down"></i></h4>
                                 <div class="dropdown-menu">
 
-                                <a class="dropdown-item pt-2" href="#" style="font-size:16px;">Profile Settings</a>
+                                <a class="dropdown-item pt-2" href="profile-settings.html" style="font-size:16px;">Profile Settings</a>
                                 <hr>
                                 <a class="dropdown-item" href="../../login.html" style="font-size:16px;">Log Out</a>
                             </div>
@@ -154,52 +154,30 @@
                 <!-- sales report area start -->
                 <div class="sales-report-area mt-5 mb-5">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="single-report mb-xs-30">
                                 <div class="s-report-inner pr--20 pt--30 mb-3">
-                                    <div class="icon"><i class="fa fa-btc"></i></div>
+                                    <div class="icon"><i class="fa fa-users"></i></div>
                                     <div class="s-report-title d-flex justify-content-between">
-                                        <h4 class="header-title mb-0">Bitcoin</h4>
-                                        <p>24 H</p>
+                                        <h4 class="header-title mb-0">Accounts</h4>
                                     </div>
                                     <div class="d-flex justify-content-between pb-2">
-                                        <h2>$ 4567809,987</h2>
-                                        <span>- 45.87</span>
+                                        <h2 style="font-size:32px;">50</h2>
                                     </div>
                                 </div>
-                                <canvas id="coin_sales1" height="100"></canvas>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="single-report mb-xs-30">
                                 <div class="s-report-inner pr--20 pt--30 mb-3">
-                                    <div class="icon"><i class="fa fa-btc"></i></div>
+                                    <div class="icon"><i class="fa fa-building"></i></div>
                                     <div class="s-report-title d-flex justify-content-between">
-                                        <h4 class="header-title mb-0">Bitcoin Dash</h4>
-                                        <p>24 H</p>
-                                    </div>
+                                        <h4 class="header-title mb-0">Stores</h4>
+                                      </div>
                                     <div class="d-flex justify-content-between pb-2">
-                                        <h2>$ 4567809,987</h2>
-                                        <span>- 45.87</span>
+                                        <h2 style="font-size:32px;">2</h2>
                                     </div>
-                                </div>
-                                <canvas id="coin_sales2" height="100"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="single-report">
-                                <div class="s-report-inner pr--20 pt--30 mb-3">
-                                    <div class="icon"><i class="fa fa-eur"></i></div>
-                                    <div class="s-report-title d-flex justify-content-between">
-                                        <h4 class="header-title mb-0">Euthorium</h4>
-                                        <p>24 H</p>
-                                    </div>
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <h2>$ 4567809,987</h2>
-                                        <span>- 45.87</span>
-                                    </div>
-                                </div>
-                                <canvas id="coin_sales3" height="100"></canvas>
+                                </div>    
                             </div>
                         </div>
                     </div>
@@ -212,88 +190,44 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-center">
-                                    <h4 class="header-title">Trading History</h4>
-                                    <div class="trd-history-tabs">
-                                        <ul class="nav" role="tablist">
-                                            <li>
-                                                <a class="active" data-toggle="tab" href="#buy_order" role="tab">Buy Order</a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab" href="#sell_order" role="tab">Sell Order</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <select class="custome-select border-0 pr-3">
+                                    <h4 class="header-title">Newly Created Accounts</h4>
+                                  <!--   <select class="custome-select border-0 pr-3">
                                         <option selected>Last 24 Hours</option>
                                         <option value="0">01 July 2018</option>
-                                    </select>
+                                    </select> -->
                                 </div>
                                 <div class="trad-history mt-4">
-                                    <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="buy_order" role="tabpanel">
                                             <div class="table-responsive">
                                                 <table class="dbkit-table">
                                                     <tr class="heading-td">
-                                                        <td>Trading ID</td>
-                                                        <td>Time</td>
-                                                        <td>Status</td>
-                                                        <td>Amount</td>
-                                                        <td>Last Trade</td>
+                                                        <td>User Fullname</td>
+                                                        <td>User Role</td>
+                                                        <td>Account Status</td>
+                                                        <td>Created At</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>78211</td>
-                                                        <td>4.00 AM</td>
-                                                        <td>Pending</td>
-                                                        <td>$758.90</td>
-                                                        <td>$05245.090</td>
+                                                        <td>Ray Vincent Laborte</td>
+                                                        <td>Business Owner</td>
+                                                        <td><span class="badge badge-danger">Not Verified</span></td>
+                                                        <td>8/23/2021</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>782782</td>
-                                                        <td>4.00 AM</td>
-                                                        <td>Pending</td>
-                                                        <td>$77878.90</td>
-                                                        <td>$7778.090</td>
+                                                        <td>Ray Vincent Laborte</td>
+                                                        <td>Business Owner</td>
+                                                        <td><span class="badge badge-danger">Not Verified</span></td>
+                                                        <td>8/23/2021</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>89675978</td>
-                                                        <td>4.00 AM</td>
-                                                        <td>Pending</td>
-                                                        <td>$0768.90</td>
-                                                        <td>$0945.090</td>
+                                                        <td>Ray Vincent Laborte</td>
+                                                        <td>Business Owner</td>
+                                                        <td><span class="badge badge-success">Verified</span></td>
+                                                        <td>8/23/2021</td>
                                                     </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="sell_order" role="tabpanel">
-                                            <div class="table-responsive">
-                                                <table class="dbkit-table">
-                                                    <tr class="heading-td">
-                                                        <td>Trading ID</td>
-                                                        <td>Time</td>
-                                                        <td>Status</td>
-                                                        <td>Amount</td>
-                                                        <td>Last Trade</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>8964978</td>
-                                                        <td>4.00 AM</td>
-                                                        <td>Pending</td>
-                                                        <td>$445.90</td>
-                                                        <td>$094545.090</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>89675978</td>
-                                                        <td>4.00 AM</td>
-                                                        <td>Pending</td>
-                                                        <td>$78.90</td>
-                                                        <td>$074852945.090</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>78527878</td>
-                                                        <td>4.00 AM</td>
-                                                        <td>Pending</td>
-                                                        <td>$0768.90</td>
-                                                        <td>$65465.090</td>
+                                                     <tr>
+                                                        <td>Ray Vincent Laborte</td>
+                                                        <td>Business Owner</td>
+                                                        <td><span class="badge badge-success">Verified</span></td>
+                                                        <td>8/23/2021</td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -301,12 +235,10 @@
                                     </div>
                                 </div>
                             </div>
+                    <!-- table here area end -->
                         </div>
                     </div>
-                    <!-- table here area end -->
                 </div>
-            </div>
-        </div>
         <!-- main content area end -->
 
         <!-- footer area start-->

@@ -57,6 +57,16 @@ Adolfo
 
  - Practice Github New way to push/pull codes
 
+8/23/2021
+
+Adolfo
+
+- rearrange code structure for businessowner 
+- rearrange layout/design for businessowner
+- redesign profile page
+- added active-link & hover design for the profile settings
+	
+
  
 libraries, plugins and etc used for the project: 
 
