@@ -40,9 +40,9 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
-                             <li><a href="dashboard.html"><i class="ti-dashboard"></i> <span>Dashboard</span></a></li>
-                             <li><a href="view_accounts.html"><i class="ti-dashboard"></i> <span>Account</span></a></li>
-                             <li class="active"><a href="view_stores.html"><i class="ti-map-alt"></i> <span>Stores</span></a></li>
+                             <li><a href="dashboard.html"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
+                             <li><a href="view_accounts.html"><i class="fa fa-users"></i> <span>Account</span></a></li>
+                             <li class="active"><a href="view_stores.html"><i class="fa fa-building"></i> <span>Stores</span></a></li>
                         </ul>
                     </nav>
                 </div>
@@ -156,20 +156,19 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title" style="text-transform: none;">List of Stores</h4>
-                                <hr>
-                                <a href="add_stores.html" class="btn btn-success mb-3">Add Store</a>
                                 <div class="single-table">
                                     <div class="table-responsive">
-                                        <table class="table table-hover progress-table text-left">
+                                        <table id="stores-table" class="table table-hover progress-table text-left">
                                             <thead class="text-uppercase">
                                                 <tr>
                                                     <th scope="col">Store Name</th>
                                                     <th scope="col">Store Address</th>
                                                     <th scope="col">Store Phone Number</th>
+                                                    <th scope="col">Store Status</th>
                                                     <th scope="col"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="myTable">
+                                            <tbody>
 
 
                                                 
@@ -213,73 +212,19 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
-    <script src="assets/firebase-js/app.js"></script>
-
-    <script>
-
-    document.addEventListener('DOMContentLoaded', () => {
-        // call this function when page loaded
-        displayData();
-    });
-
-   // start of data display
-   const displayData = async () => {
-    
-    try {
-    //Initialize Firebase 
-    var firestore = firebase.firestore()
-    // view cloud firestore data into table
-    firestore.collection("stores")
-    .get()
-    .then(querySnapshot => {
-            querySnapshot.forEach( doc => {
-                let id = doc.id;
-                let data = doc.data();
-                let row  = `<tr>
-                                <td>${data.store_name}</td>
-                                <td>${data.store_address}</td>
-                                <td>${data.store_phonenumber}</td>
-                                <td>
-                                    <a href="update_stores/${id}" class="btn btn-primary btn-sm text-white">Update</a>
-                                    <button data-id="${id}" class="btn btn-danger btn-sm text-white">Delete</button>
-                                </td>
-                          </tr>`;
-                let table = document.getElementById('myTable')
-                table.innerHTML += row
-            })
-        })
-        .catch(err=>{
-            console.log(`Error: ${err}`)
-        });
-
-    } catch(err) {
-        console.log(err);
-    }
- }
- // end of data display
-
- // start of delete selected store 
- document.querySelector('table tbody').addEventListener('click', async (event) => {
-
- const id = event.target.dataset.id;
-
-  try {
-       firebase.firestore()
-       .collection("stores")
-       .doc(id)
-       .delete()
-       .then(() => console.log("Document deleted")) 
-       .catch((error) => console.error("Error deleting document", error));
-      } catch {
-        console.log(err);
-    }
-    
-
-});
- // end of delete selected store
-
-
-
-       </script>
+     <script>
+        var firebaseConfig = {
+          apiKey: "AIzaSyCoOjba1Ej7CJzg_sNXdfMUhQwqbV5Cruo",
+          authDomain: "drinktubig-bcaf5.firebaseapp.com",
+          projectId: "drinktubig-bcaf5",
+          storageBucket: "drinktubig-bcaf5.appspot.com",
+          messagingSenderId: "865738659083",
+          appId: "1:865738659083:web:60d90ffd1add62930a3e0e",
+          measurementId: "G-8ETGGW6B5L"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+    <script src="assets/firebase-js/stores-script.js"></script>
     </body>
 </html>

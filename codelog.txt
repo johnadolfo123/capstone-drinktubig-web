@@ -65,6 +65,11 @@ Adolfo
 - rearrange layout/design for businessowner
 - redesign profile page
 - added active-link & hover design for the profile settings
+
+
+8/27/2021
+
+- 
 	
 
  
@@ -79,5 +84,8 @@ Laborte
 
 1. web-drinktubig/administrator/logout-test.html guba ang design
 2. Cannot GET /administrator/accounts.html sa administrator/index.html
+
+
+please add modal for the admin stores view button add modal for the product page
 
 
