@@ -43,7 +43,7 @@ storesRef.onSnapshot(snapshot => {
                     <td class="stores-name">${stores.store_name}</td>
                     <td class="stores-address">${stores.store_address}</td>
                     <td class="stores-phone">${stores.store_phone}</td>
-                    <td class="stores-status"><span class="badge badge-danger">Not Verified</span></td>
+                    <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
             		<td>
 						<a href="#" id="${doc.id}" class="view js-view-stores"><a href="view_stores_product.html" class="btn btn-info btn-sm">VIEW</a>
 						</a>

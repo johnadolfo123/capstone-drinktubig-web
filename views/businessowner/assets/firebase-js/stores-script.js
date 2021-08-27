@@ -1,8 +1,8 @@
-let accountsRef = db.collection('accounts');
+let storesRef = db.collection('stores');
 let deleteIDs = [];
 
 // REAL TIME LISTENER
-accountsRef.onSnapshot(snapshot => {
+storesRef.onSnapshot(snapshot => {
 	let changes = snapshot.docChanges();
 	changes.forEach(change => {
 		if (change.type == 'added') {
@@ -17,7 +17,7 @@ accountsRef.onSnapshot(snapshot => {
 });
 
 // GET TOTAL SIZE
-accountsRef.onSnapshot(snapshot => {
+storesRef.onSnapshot(snapshot => {
 	let size = snapshot.size;
 	$('.count').text(size);
 	if (size == 0) {
@@ -28,25 +28,26 @@ accountsRef.onSnapshot(snapshot => {
 });
 
 
- const displayAccounts = async (doc) => {
-    console.log('displayAccounts');
+ const displayStores = async (doc) => {
+    console.log('displayStores');
 
-    let accounts = accountsRef;
+    let stores = storesRef;
     // .startAfter(doc || 0).limit(10000)
 
-    const data = await accounts.get();
+    const data = await stores.get();
 
     data.docs.forEach(doc => {
-        const accounts = doc.data();
+        const stores = doc.data();
         let item =
             `<tr data-id="${doc.id}">
-                    <td class="accounts-name">${accounts.account_firstname} ${accounts.account_lastname}</td>
-                    <td class="accounts-email">${accounts.account_email}</td>
-                    <td class="accounts-role">Business Owner</td>
-                    <td class="accounts-status"><span class="status-p bg-danger">Not Verified</span></td>
+                    <td class="stores-name">${stores.store_name}</td>
+                    <td class="stores-address">${stores.store_address}</td>
+                    <td class="stores-phone">${stores.store_phone}</td>
+                    <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
+            		
             </tr>`;
 
-        $('#accounts-table').append(item);
+        $('#stores-table').append(item);
     });
 
     // UPDATE LATEST DOC
@@ -61,11 +62,11 @@ $(document).ready(function () {
 	let latestDoc = null;
 
 	// LOAD INITIAL DATA
-	displayAccounts();
+	displayStores();
 
 	// LOAD MORE
 	$(document).on('click', '.js-loadmore', function () {
-		displayAccounts(latestDoc);
+		displayStores(latestDoc);
 	});
 
 	// ADD EMPLOYEE
@@ -198,7 +199,7 @@ $(document).ready(function () {
 		$('#employee-table tbody').html('');
 		let nameKeyword = $("#search-name").val();
 		console.log(nameKeyword);
-		accountsRef.orderBy('name', 'asc').startAt(nameKeyword).endAt(nameKeyword + "\uf8ff").get()
+		storesRef.orderBy('name', 'asc').startAt(nameKeyword).endAt(nameKeyword + "\uf8ff").get()
 			.then(function (documentSnapshots) {
 				documentSnapshots.docs.forEach(doc => {
 					renderEmployee(doc);
