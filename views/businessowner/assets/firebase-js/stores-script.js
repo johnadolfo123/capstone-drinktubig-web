@@ -1,4 +1,4 @@
-let storesRef = db.collection('stores');
+let storesRef = db.collection('StoreList');
 let deleteIDs = [];
 
 // REAL TIME LISTENER
@@ -39,12 +39,22 @@ storesRef.onSnapshot(snapshot => {
     data.docs.forEach(doc => {
         const stores = doc.data();
         let item =
-            `<tr data-id="${doc.id}">
-                    <td class="stores-name">${stores.store_name}</td>
-                    <td class="stores-address">${stores.store_address}</td>
-                    <td class="stores-phone">${stores.store_phone}</td>
+             `<tr data-id="${doc.id}">
+                    <td class="stores-name">${stores.StoreName}</td>
+                    <td class="stores-address">${stores.StoreLocation}</td>
+                    <td class="stores-phone">${stores.StoreContactNumber}</td>
+                    <td class="stores-phone">${stores.StoreOpen}</td>
                     <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
-            		
+            		<td>
+						<a href="#" id="${doc.id}" class="view js-view-stores btn btn-info btn-sm">
+							VIEW
+						</a>
+					</td>
+					<td>
+						<a href="#deleteStoresModal" data-toggle="modal" id="${doc.id}" class="delete js-delete-stores btn btn-danger btn-sm">
+							DELETE 
+						</a>
+					</td>
             </tr>`;
 
         $('#stores-table').append(item);
@@ -70,43 +80,36 @@ $(document).ready(function () {
 	});
 
 	// ADD EMPLOYEE
-	$("#add-accounts-form").submit(function (event) {
+	$("#add-stores-form").submit(function (event) {
 		event.preventDefault();
-		let employeeName = $('#employee-name').val();
-		let employeeEmail = $('#employee-email').val();
-		let employeeAddress = $('#employee-address').val();
-		let employeePhone =  $('#employee-phone').val();
-		db.collection('employees').add({
-			name: employeeName,
-			email: employeeEmail,
-			address: employeeAddress,
-			phone: employeePhone,
+		let storesName = $('#stores-name').val();
+		let storesAddress = $('#stores-address').val();
+		let storesPhone =  $('#stores-phone').val();
+
+
+
+		db.collection('StoreList').add({
+			StoreName: storesName,
+			StoreLocation: storesAddress,
+			StoreContactNumber: storesPhone,
 			createdAt : firebase.firestore.FieldValue.serverTimestamp()
 			}).then(function (docRef) {
 				console.log("Document written with ID: ", docRef.id);
-				$("#addEmployeeModal").modal('hide');
+				$("#addStoresModal").modal('hide');
+				let newStores =
+				 `<tr data-id="${docRef.id}">
+                    <td class="stores-name">${docRef.StoreName}</td>
+                    <td class="stores-address">${docRef.StoreLocation}</td>
+                    <td class="stores-phone">${docRef.StoreContactNumber}</td>
+                    <td class="stores-phone">${docRef.StoreOpen}</td>
+                    <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
+            		<td>
+						<a href="#" id="${docRef.id}" class="delete-id js-delete-stores"><a href="view_stores_product.html" class="btn btn-info btn-sm">VIEW</a>
+						</a>
+					</td>
+            </tr>`;
 
-				let newEmployee =
-				`<tr data-id="${docRef.id}">
-						<td>
-								<span class="custom-checkbox">
-										<input type="checkbox" id="${docRef.id}" name="options[]" value="${docRef.id}">
-										<label for="${docRef.id}"></label>
-								</span>
-						</td>
-						<td class="employee-name">${employeeName}</td>
-						<td class="employee-email">${employeeEmail}</td>
-						<td class="employee-address">${employeeAddress}</td>
-						<td class="employee-phone">${employeePhone}</td>
-						<td>
-								<a href="#" id="${docRef.id}" class="edit js-edit-employee"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-								</a>
-								<a href="#" id="${docRef.id}" class="delete js-delete-employee"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
-								</a>
-						</td>
-				</tr>`;
-
-			$('#employee-table tbody').prepend(newEmployee);
+			$('#stores-table tbody').prepend(newStores);
 			})
 			.catch(function (error) {
 				console.error("Error writing document: ", error);
@@ -159,38 +162,38 @@ $(document).ready(function () {
 	});
 
 	// DELETE EMPLOYEE
-	$(document).on('click', '.js-delete-employee', function (e) {
+	$(document).on('click', '.js-delete-stores', function (e) {
 		e.preventDefault();
 		let id = $(this).attr('id');
-		$('#delete-employee-form').attr('delete-id', id);
-		$('#deleteEmployeeModal').modal('show');
+		$('#delete-stores-form').attr('delete-id', id);
+		$('#deleteStoresModal').modal('show');
 	});
 
-	$("#delete-employee-form").submit(function (event) {
+	$("#delete-stores-form").submit(function (event) {
 		event.preventDefault();
 		let id = $(this).attr('delete-id');
 		if (id != undefined) {
-			db.collection('employees').doc(id).delete()
+			db.collection('StoreList').doc(id).delete()
 				.then(function () {
 					console.log("Document successfully delete!");
-					$("#deleteEmployeeModal").modal('hide');
+					$("#deleteStoresModal").modal('hide');
 				})
 				.catch(function (error) {
 					console.error("Error deleting document: ", error);
 				});
 		} else {
-			let checkbox = $('table tbody input:checked');
-			checkbox.each(function () {
-				db.collection('employees').doc(this.value).delete()
-					.then(function () {
-						console.log("Document successfully delete!");
-						displayEmployees();
-					})
-					.catch(function (error) {
-						console.error("Error deleting document: ", error);
-					});
-			});
-			$("#deleteEmployeeModal").modal('hide');
+			// let checkbox = $('table tbody input:checked');
+			// checkbox.each(function () {
+			// 	db.collection('employees').doc(this.value).delete()
+			// 		.then(function () {
+			// 			console.log("Document successfully delete!");
+			// 			displayEmployees();
+			// 		})
+			// 		.catch(function (error) {
+			// 			console.error("Error deleting document: ", error);
+			// 		});
+			// });
+			$("#deleteStoresModal").modal('hide');
 		}
 	});
 
@@ -208,8 +211,8 @@ $(document).ready(function () {
 	});
 
 	// RESET FORMS
-	$("#addEmployeeModal").on('hidden.bs.modal', function () {
-		$('#add-employee-form .form-control').val('');
+	$("#addStoreModal").on('hidden.bs.modal', function () {
+		$('#add-stores-form .form-control').val('');
 	});
 
 	$("#editEmployeeModal").on('hidden.bs.modal', function () {
