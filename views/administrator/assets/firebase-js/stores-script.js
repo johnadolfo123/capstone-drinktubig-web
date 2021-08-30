@@ -1,4 +1,4 @@
-let storesRef = db.collection('stores');
+let storesRef = db.collection('StoreList');
 let deleteIDs = [];
 
 // REAL TIME LISTENER
@@ -40,9 +40,10 @@ storesRef.onSnapshot(snapshot => {
         const stores = doc.data();
         let item =
             `<tr data-id="${doc.id}">
-                    <td class="stores-name">${stores.store_name}</td>
-                    <td class="stores-address">${stores.store_address}</td>
-                    <td class="stores-phone">${stores.store_phone}</td>
+                    <td class="stores-name">${stores.StoreName}</td>
+                    <td class="stores-address">${stores.StoreLocation}</td>
+                    <td class="stores-phone">${stores.StoreContactNumber}</td>
+                    <td class="stores-phone">${stores.StoreOpen}</td>
                     <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
             		<td>
 						<a href="#" id="${doc.id}" class="view js-view-stores"><a href="view_stores_product.html" class="btn btn-info btn-sm">VIEW</a>

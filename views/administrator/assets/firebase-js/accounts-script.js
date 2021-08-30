@@ -1,8 +1,8 @@
-let accountsRef = db.collection('accounts');
+let usersRef = db.collection('Users');
 let deleteIDs = [];
 
 // REAL TIME LISTENER
-accountsRef.onSnapshot(snapshot => {
+usersRef.onSnapshot(snapshot => {
 	let changes = snapshot.docChanges();
 	changes.forEach(change => {
 		if (change.type == 'added') {
@@ -17,7 +17,7 @@ accountsRef.onSnapshot(snapshot => {
 });
 
 // GET TOTAL SIZE
-accountsRef.onSnapshot(snapshot => {
+usersRef.onSnapshot(snapshot => {
 	let size = snapshot.size;
 	$('.count').text(size);
 	if (size == 0) {
@@ -28,25 +28,27 @@ accountsRef.onSnapshot(snapshot => {
 });
 
 
- const displayAccounts = async (doc) => {
-    console.log('displayAccounts');
+ const displayUsers = async (doc) => {
+    console.log('displayUsers');
 
-    let accounts = accountsRef;
+    let users = usersRef;
     // .startAfter(doc || 0).limit(10000)
 
-    const data = await accounts.get();
+    const data = await users.get();
 
     data.docs.forEach(doc => {
-        const accounts = doc.data();
+        const users = doc.data();
+
         let item =
             `<tr data-id="${doc.id}">
-                    <td class="accounts-name">${accounts.account_firstname} ${accounts.account_lastname}</td>
-                    <td class="accounts-email">${accounts.account_email}</td>
-                    <td class="accounts-role">Business Owner</td>
-                    <td class="accounts-status"><span class="status-p bg-danger">Not Verified</span></td>
+                    <td class="users-name">${users.fullname}</td>
+                    <td class="users-email">${users.email}</td>
+                    <td class="users-phonenumber">${users.phoneNumber}</td>
+                    <td class="users-role">Business Owner</td>
+                    <td class="users-status"><span class="status-p bg-danger">Not Verified</span></td>
             </tr>`;
 
-        $('#accounts-table').append(item);
+        $('#users-table').append(item);
     });
 
     // UPDATE LATEST DOC
@@ -61,11 +63,11 @@ $(document).ready(function () {
 	let latestDoc = null;
 
 	// LOAD INITIAL DATA
-	displayAccounts();
+	displayUsers();
 
 	// LOAD MORE
 	$(document).on('click', '.js-loadmore', function () {
-		displayAccounts(latestDoc);
+		displayUsers(latestDoc);
 	});
 
 	// ADD EMPLOYEE
