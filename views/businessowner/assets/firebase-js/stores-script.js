@@ -51,6 +51,11 @@ storesRef.onSnapshot(snapshot => {
 						</a>
 					</td>
 					<td>
+						<a href="#editStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-stores btn btn-primary btn-sm">
+							EDIT 
+						</a>
+					</td>
+					<td>
 						<a href="#deleteStoresModal" data-toggle="modal" id="${doc.id}" class="delete js-delete-stores btn btn-danger btn-sm">
 							DELETE 
 						</a>
@@ -79,32 +84,41 @@ $(document).ready(function () {
 		displayStores(latestDoc);
 	});
 
-	// ADD EMPLOYEE
+	// ADD STORES
 	$("#add-stores-form").submit(function (event) {
 		event.preventDefault();
 		let storesName = $('#stores-name').val();
 		let storesAddress = $('#stores-address').val();
 		let storesPhone =  $('#stores-phone').val();
-
-
+		let storesOpen = '9:00AM';
 
 		db.collection('StoreList').add({
 			StoreName: storesName,
 			StoreLocation: storesAddress,
-			StoreContactNumber: storesPhone,
-			createdAt : firebase.firestore.FieldValue.serverTimestamp()
+			StoreContactNumber: storesPhone
+			// createdAt : firebase.firestore.FieldValue.serverTimestamp()
 			}).then(function (docRef) {
 				console.log("Document written with ID: ", docRef.id);
 				$("#addStoresModal").modal('hide');
 				let newStores =
 				 `<tr data-id="${docRef.id}">
-                    <td class="stores-name">${docRef.StoreName}</td>
-                    <td class="stores-address">${docRef.StoreLocation}</td>
-                    <td class="stores-phone">${docRef.StoreContactNumber}</td>
-                    <td class="stores-phone">${docRef.StoreOpen}</td>
+                    <td class="stores-name">${storesName}</td>
+                    <td class="stores-address">${storesAddress}</td>
+                    <td class="stores-phone">${storesPhone}</td>
+                    <td class="stores-phone">${storesOpen}</td>
                     <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
             		<td>
 						<a href="#" id="${docRef.id}" class="delete-id js-delete-stores"><a href="view_stores_product.html" class="btn btn-info btn-sm">VIEW</a>
+						</a>
+					</td>
+					<td>
+						<a href="#editStoresModal" data-toggle="modal" id="${docRef.id}" class="edit js-edit-stores btn btn-primary btn-sm">
+							EDIT 
+						</a>
+					</td>
+					<td>
+						<a href="#deleteStoresModal" data-toggle="modal" id="${docRef.id}" class="delete js-delete-stores btn btn-danger btn-sm">
+							DELETE 
 						</a>
 					</td>
             </tr>`;
@@ -116,18 +130,17 @@ $(document).ready(function () {
 			});
 	});
 
-	// UPDATE EMPLOYEE
-	$(document).on('click', '.js-edit-employee', function (e) {
+	// UPDATE STORES
+	$(document).on('click', '.js-edit-stores', function (e) {
 		e.preventDefault();
 		let id = $(this).attr('id');
-		$('#edit-employee-form').attr('edit-id', id);
-		db.collection('employees').doc(id).get().then(function (document) {
+		$('#edit-stores-form').attr('edit-id', id);
+		db.collection('StoreList').doc(id).get().then(function (document) {
 			if (document.exists) {
-				$('#edit-employee-form #employee-name').val(document.data().name);
-				$('#edit-employee-form #employee-email').val(document.data().email);
-				$('#edit-employee-form #employee-address').val(document.data().address);
-				$('#edit-employee-form #employee-phone').val(document.data().phone);
-				$('#editEmployeeModal').modal('show');
+				$('#edit-stores-form #stores-name').val(document.data().StoreName);
+				$('#edit-stores-form #stores-address').val(document.data().StoreLocation);
+				$('#edit-stores-form #stores-phone').val(document.data().StoreContactNumber);
+				$('#editStoresModal').modal('show');
 			} else {
 				console.log("No such document!");
 			}
@@ -136,29 +149,26 @@ $(document).ready(function () {
 		});
 	});
 
-	$("#edit-employee-form").submit(function (event) {
+	$("#edit-stores-form").submit(function (event) {
 		event.preventDefault();
 		let id = $(this).attr('edit-id');
-		let employeeName = $('#edit-employee-form #employee-name').val();
-		let employeeEmail = $('#edit-employee-form #employee-email').val();
-		let employeeAddress = $('#edit-employee-form #employee-address').val();
-		let employeePhone =  $('#edit-employee-form  #employee-phone').val();
+		let storeName = $('#edit-stores-form #stores-name').val();
+		let storeAddress = $('#edit-stores-form #stores-address').val();
+		let storePhone =  $('#edit-stores-form  #stores-phone').val();
 
-		db.collection('employees').doc(id).update({
-			name: employeeName,
-			email: employeeEmail,
-			address: employeeAddress,
-			phone: employeePhone,
+		db.collection('StoreList').doc(id).update({
+			StoreName: storeName,
+			StoreLocation: storeAddress,
+			StoreContactNumber: storePhone,
 			updatedAt : firebase.firestore.FieldValue.serverTimestamp()
 		});
 
-		$('#editEmployeeModal').modal('hide');
+		$('#editStoresModal').modal('hide');
 
 		// SHOW UPDATED DATA ON BROWSER
-		$('tr[data-id=' + id + '] td.employee-name').html(employeeName);
-		$('tr[data-id=' + id + '] td.employee-email').html(employeeEmail);
-		$('tr[data-id=' + id + '] td.employee-address').html(employeeAddress);
-		$('tr[data-id=' + id + '] td.employee-phone').html(employeePhone);
+		$('tr[data-id=' + id + '] td.stores-name').html(storeName);
+		$('tr[data-id=' + id + '] td.stores-address').html(storeAddress);
+		$('tr[data-id=' + id + '] td.stores-phone').html(storePhone);
 	});
 
 	// DELETE EMPLOYEE
@@ -211,11 +221,11 @@ $(document).ready(function () {
 	});
 
 	// RESET FORMS
-	$("#addStoreModal").on('hidden.bs.modal', function () {
+	$("#addStoresModal").on('hidden.bs.modal', function () {
 		$('#add-stores-form .form-control').val('');
 	});
 
-	$("#editEmployeeModal").on('hidden.bs.modal', function () {
+	$("#editStoresModal").on('hidden.bs.modal', function () {
 		$('#edit-employee-form .form-control').val('');
 	});
 });

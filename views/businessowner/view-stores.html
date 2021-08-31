@@ -155,7 +155,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title" style="text-transform: none;">List of Stores</h4>
-                                <a href="#addStoreModal" class="btn btn-success btn-sm" data-toggle="modal">Add Stores</a>
+                                <a href="#addStoresModal" class="btn btn-success btn-sm" data-toggle="modal">Add Stores</a>
                                 <div class="single-table">
                                     <div class="table-responsive">
                                         <table id="stores-table" class="table table-hover progress-table text-left">
@@ -189,7 +189,7 @@
 
     <!-- MODALS -->
 
-        <div id="addStoreModal" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div id="addStoresModal" class="modal fade" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="add-stores-form">
@@ -213,6 +213,38 @@
                     </div>
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-success" value="Add">
+                        <input type="button" class="btn btn-danger" data-dismiss="modal" value="Cancel">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal HTML -->
+    <div id="editStoresModal" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="edit-stores-form">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Stores</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                   <div class="modal-body">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="stores-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea id="stores-address" class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" id="stores-phone" class="form-control" required>
+                        </div>
+                    </div>
+                     <div class="modal-footer">
+                        <input type="submit" class="btn btn-success" value="Edit">
                         <input type="button" class="btn btn-danger" data-dismiss="modal" value="Cancel">
                     </div>
                 </form>
