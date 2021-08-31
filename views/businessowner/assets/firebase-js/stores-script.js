@@ -43,7 +43,7 @@ storesRef.onSnapshot(snapshot => {
                     <td class="stores-name">${stores.StoreName}</td>
                     <td class="stores-address">${stores.StoreLocation}</td>
                     <td class="stores-phone">${stores.StoreContactNumber}</td>
-                    <td class="stores-phone">${stores.StoreOpen}</td>
+                    <td class="stores-opentime">${stores.StoreOpen}</td>
                     <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
             		<td>
 						<a href="#" id="${doc.id}" class="view js-view-stores btn btn-info btn-sm">
@@ -140,6 +140,7 @@ $(document).ready(function () {
 				$('#edit-stores-form #stores-name').val(document.data().StoreName);
 				$('#edit-stores-form #stores-address').val(document.data().StoreLocation);
 				$('#edit-stores-form #stores-phone').val(document.data().StoreContactNumber);
+				$('#edit-stores-form #stores-opentime');
 				$('#editStoresModal').modal('show');
 			} else {
 				console.log("No such document!");
@@ -169,6 +170,7 @@ $(document).ready(function () {
 		$('tr[data-id=' + id + '] td.stores-name').html(storeName);
 		$('tr[data-id=' + id + '] td.stores-address').html(storeAddress);
 		$('tr[data-id=' + id + '] td.stores-phone').html(storePhone);
+		$('tr[data-id=' + id + '] td.stores-opentime').html('9:00 AM');
 	});
 
 	// DELETE EMPLOYEE
