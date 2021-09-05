@@ -68,7 +68,6 @@ storesRef.onSnapshot(snapshot => {
 
     // UPDATE LATEST DOC
     latestDoc = data.docs[data.docs.length - 1];
-
 }
 
 // addTestData();
@@ -94,9 +93,10 @@ $(document).ready(function () {
 		let storesPhone =  $('#stores-phone').val();
 		let storesOpen = '9:00AM';
 		//let trimStoreName= storesName.trim(storesName);
-		var trimStoreName = storesName.replace(/\s/g, '');
+
+		var trimStoreName = storesName.replace(/\s/g, ''); 
 		console.log(trimStoreName);
-		let storesID = trimStoreName + "-" + storesSitio;
+		let storesID = trimStoreName + "-" + storesSitio; 
 
 		db.collection('StoreList').doc(storesID).set({
 			StoreName: storesName,
@@ -220,6 +220,7 @@ $(document).ready(function () {
 			$("#deleteStoresModal").modal('hide');
 		}
 	});
+	// DELETE END
 
 	// SEARCH
 	$("#search-name").keyup(function () {
