@@ -40,9 +40,9 @@ storesRef.onSnapshot(snapshot => {
         const stores = doc.data();
         let item =
              `<tr data-id="${doc.id}">
-             		<td class="stores-branchid">${stores.StoreBranchID}</td>
-                    <td class="stores-name">${stores.StoreName}</td>
+             		<td class="stores-name">${stores.StoreName}</td>
                     <td class="stores-address">${stores.StoreLocation}</td>
+                    <td class="stores-address">${stores.StoreSitio}</td>
                     <td class="stores-phone">${stores.StoreContactNumber}</td>
                     <td class="stores-opentime">${stores.StoreOpen}</td>
                     <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
@@ -88,16 +88,18 @@ $(document).ready(function () {
 	// ADD STORES
 	$("#add-stores-form").submit(function (event) {
 		event.preventDefault();
-		let storesBranchID = $('#stores-branchid').val();
 		let storesName = $('#stores-name').val();
 		let storesAddress = $('#stores-address').val();
+		let storesSitio = $('#stores-sitio').val();
 		let storesPhone =  $('#stores-phone').val();
 		let storesOpen = '9:00AM';
 
+		// let storeID = storesName+storesSitio; unya nalang ni haha
+
 		db.collection('StoreList').add({
-			StoreBranchID: storesBranchID,
 			StoreName: storesName,
 			StoreLocation: storesAddress,
+			StoreSitio: storesSitio,
 			StoreContactNumber: storesPhone
 			// createdAt : firebase.firestore.FieldValue.serverTimestamp()
 			}).then(function (docRef) {
@@ -105,9 +107,9 @@ $(document).ready(function () {
 				$("#addStoresModal").modal('hide');
 				let newStores =
 				 `<tr data-id="${docRef.id}">
-				 	<td class="stores-name">${storesBranchID}</td>
-                    <td class="stores-name">${storesName}</td>
+				 	<td class="stores-name">${storesName}</td>
                     <td class="stores-address">${storesAddress}</td>
+                    <td class="stores-sitio">${storesSitio}</td>
                     <td class="stores-phone">${storesPhone}</td>
                     <td class="stores-phone">${storesOpen}</td>
                     <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
