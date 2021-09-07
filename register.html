@@ -103,10 +103,26 @@
      <!-- firebase test -->
 
 
-    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+   <!--  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
-    <script src="assets/firebase-js/app.js"></script>     
+    -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+     <script>
+        var firebaseConfig = {
+          apiKey: "AIzaSyCoOjba1Ej7CJzg_sNXdfMUhQwqbV5Cruo",
+          authDomain: "drinktubig-bcaf5.firebaseapp.com",
+          projectId: "drinktubig-bcaf5",
+          storageBucket: "drinktubig-bcaf5.appspot.com",
+          messagingSenderId: "865738659083",
+          appId: "1:865738659083:web:60d90ffd1add62930a3e0e",
+          measurementId: "G-8ETGGW6B5L"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
     
     <script>
       const signInForm = document.querySelector('#signInForm');
@@ -119,26 +135,36 @@
           //Get Form Values
           const email = signInForm['user_email'].value;
           const password = signInForm['user_password'].value;
+          const firstname = signInForm['user_firstname'].value;
+          const lastname = signInForm['user_lastname'].value;
+
 
           // to create the new account
             firebase.auth().createUserWithEmailAndPassword(email, password)
            .then((userCredential) => {
 
-            var user = userCredential.user;
+            var user  = userCredential.user;
+            var em = email;
+            var fname = firstname;
+            var lname = lastname;
 
-            var firstname = signInForm['user_firstname'].value;
-            var lastname = signInForm['user_lastname'].value;
+            console.log(user);
 
-            console.log(firstname);
+            console.log(user.uid);
 
-            return db.collection('accounts').doc(user.uid).set({
-                account_firstname: firstname,
-                account_lastname: lastname
-            });             
+            let fullname = fname + " " + lname; 
+            return db.collection('Users').doc(user.uid).set({
+                fullname: fullname,
+                email: email,
+                address: '',
+                phonenumber: '',
+                profile: ''
+            });      
           })
            .catch((error) => {
              var errorCode = error.code;
              var errorMessage = error.message;
+              console.log("Error Data");
            });
         })
         </script>
