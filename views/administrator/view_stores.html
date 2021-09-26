@@ -117,12 +117,12 @@
                         <div class="clearfix d-md-inline-block d-block">
                             <div class="user-profile m-0 p-2" style="background:none;">
                                 <img class="avatar user-thumb" src="assets/images/author/avatar.png" alt="avatar" style="border:1px solid black;padding:3px">
-                                <h4 class="user-name dropdown-toggle" data-toggle="dropdown" style="color:black"> John Armand Adolfo <i class="fa fa-angle-down"></i></h4>
+                                <h4 class="user-name dropdown-toggle" data-toggle="dropdown" style="color:black"> <span id="display-name"></span> <i class="fa fa-angle-down"></i></h4>
                                 <div class="dropdown-menu">
 
                                 <a class="dropdown-item pt-2" href="profile-settings.html" style="font-size:16px;">Profile Settings</a>
                                 <hr>
-                                <a class="dropdown-item" href="../../login.html" style="font-size:16px;">Log Out</a>
+                               <button class="dropdown-item" style="font-size:16px;" onClick="signOut()">Log Out</button>
                             </div>
                             </div>
                         </div>
@@ -210,9 +210,9 @@
     <script src="assets/js/scripts.js"></script>
 
     <!-- firebase test -->
-
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
      <script>
         var firebaseConfig = {
           apiKey: "AIzaSyCoOjba1Ej7CJzg_sNXdfMUhQwqbV5Cruo",
@@ -227,5 +227,44 @@
         const db = firebase.firestore();
     </script>
     <script src="assets/firebase-js/stores-script.js"></script>
-    </body>
+
+     <script>
+     $( document ).ready(function() {
+           firebase.auth().onAuthStateChanged((user) => {
+              if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                var uid = user.uid;
+                var user = user;
+                
+                var docRef = db.collection('Users').doc(uid);
+
+                 docRef.get().then((doc) => {
+                    const curr_users = doc.data();
+                    
+                  $('#display-name').html(curr_users.fullname);
+
+                }).catch((error) => {
+                    console.log("Error getting document:", error);
+                });  
+              } else {
+                // User is signed out
+                signOut()
+              }
+            });
+       });
+    </script>
+
+    <script>
+        function signOut() {
+          //var user = firebase.auth().currentUser;
+          firebase.auth().signOut().then(function() {
+            console.log('Signed Out');
+            location.href = "../../login.html";
+          }, function(error) {
+            console.error('Sign Out Error', error);
+          });
+        }
+    </script>
+</body>
 </html>

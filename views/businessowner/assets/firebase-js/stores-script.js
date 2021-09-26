@@ -38,7 +38,32 @@ storesRef.onSnapshot(snapshot => {
 
     data.docs.forEach(doc => {
         const stores = doc.data();
-        let item =
+     //    let item =
+     //         `<tr data-id="${doc.id}">
+     //         		<td class="stores-name">${stores.StoreName}</td>
+     //                <td class="stores-address">${stores.StoreLocation}</td>
+     //                <td class="stores-sitio">${stores.StoreSitio}</td>
+     //                <td class="stores-phone">${stores.StoreContactNumber}</td>
+     //                <td class="stores-opentime">${stores.StoreOpen}</td>
+     //                <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
+     //        		<td>
+					// 	<a href="view_openstores.html?id=${doc.id}" id="${doc.id}" class="view js-view-stores btn btn-info btn-sm">
+					// 		VIEW
+					// 	</a>
+					// </td>
+					// <td>
+					// 	<a href="#editStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-stores btn btn-primary btn-sm">
+					// 		EDIT 
+					// 	</a>
+					// </td>
+					// <td>
+					// 	<a href="#deleteStoresModal" data-toggle="modal" id="${doc.id}" class="delete js-delete-stores btn btn-danger btn-sm">
+					// 		DELETE 
+					// 	</a>
+					// </td>
+     //        </tr>`;
+
+             let item =
              `<tr data-id="${doc.id}">
              		<td class="stores-name">${stores.StoreName}</td>
                     <td class="stores-address">${stores.StoreLocation}</td>
@@ -47,11 +72,6 @@ storesRef.onSnapshot(snapshot => {
                     <td class="stores-opentime">${stores.StoreOpen}</td>
                     <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
             		<td>
-						<a href="#" id="${doc.id}" class="view js-view-stores btn btn-info btn-sm">
-							VIEW
-						</a>
-					</td>
-					<td>
 						<a href="#editStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-stores btn btn-primary btn-sm">
 							EDIT 
 						</a>
@@ -106,7 +126,31 @@ $(document).ready(function () {
 			// createdAt : firebase.firestore.FieldValue.serverTimestamp()
 			}).then(function() {
 				$("#addStoresModal").modal('hide');
-				let newStores =
+				// let newStores =
+				//  `<tr data-id="${storesID}">
+				//  	<td class="stores-name">${storesName}</td>
+    //                 <td class="stores-address">${storesAddress}</td>
+    //                 <td class="stores-sitio">${storesSitio}</td>
+    //                 <td class="stores-phone">${storesPhone}</td>
+    //                 <td class="stores-phone">${storesOpen}</td>
+    //                 <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
+    //         		<td>
+				// 		<a href="view_openstores.html?id=${storesID}" id="${storesID}" class="delete-id js-delete-stores"><a href="view_stores_product.html" class="btn btn-info btn-sm">VIEW</a>
+				// 		</a>
+				// 	</td>
+				// 	<td>
+				// 		<a href="#editStoresModal" data-toggle="modal" id="${storesID}" class="edit js-edit-stores btn btn-primary btn-sm">
+				// 			EDIT 
+				// 		</a>
+				// 	</td>
+				// 	<td>
+				// 		<a href="#deleteStoresModal" data-toggle="modal" id="${storesID}" class="delete js-delete-stores btn btn-danger btn-sm">
+				// 			DELETE 
+				// 		</a>
+				// 	</td>
+    //         </tr>`;
+
+            let newStores =
 				 `<tr data-id="${storesID}">
 				 	<td class="stores-name">${storesName}</td>
                     <td class="stores-address">${storesAddress}</td>
@@ -115,10 +159,6 @@ $(document).ready(function () {
                     <td class="stores-phone">${storesOpen}</td>
                     <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
             		<td>
-						<a href="#" id="${storesID}" class="delete-id js-delete-stores"><a href="view_stores_product.html" class="btn btn-info btn-sm">VIEW</a>
-						</a>
-					</td>
-					<td>
 						<a href="#editStoresModal" data-toggle="modal" id="${storesID}" class="edit js-edit-stores btn btn-primary btn-sm">
 							EDIT 
 						</a>
@@ -256,7 +296,7 @@ $(document).ready(function () {
 			bottomMargin = parseInt($dialog.css('marginBottom'), 10);
 
 		// Make sure you don't hide the top part of the modal w/ a negative margin if it's longer than the screen height, and keep the margin equal to the bottom margin of the modal
-		if (offset < bottomMargin) offset = bottomMargin;
+		if (offset > bottomMargin) offset = bottomMargin;
 		$dialog.css("margin-top", offset);
 	}
 

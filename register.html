@@ -29,7 +29,7 @@
             <div class="row no-gutters">
                 <div class="col-xl-4 offset-xl-8 col-lg-6 offset-lg-6">
                     <div class="login-box-s2 ptb--100">
-                        <form id="signInForm">
+                        <form id="registerForm">
                             <div class="login-form-head" style="background-color:lightblue">
                                 <h4>Sign Up</h4>
                                 <p>Hello there, Please fill up your information</p>
@@ -125,7 +125,7 @@
     </script>
     
     <script>
-      const signInForm = document.querySelector('#signInForm');
+      const registerForm = document.querySelector('#registerForm');
         let submitButton = document.getElementById('submit')
         //Create Event Listener To Allow Form Submission
         submitButton.addEventListener("click", (e) => {
@@ -133,10 +133,10 @@
          e.preventDefault();
 
           //Get Form Values
-          const email = signInForm['user_email'].value;
-          const password = signInForm['user_password'].value;
-          const firstname = signInForm['user_firstname'].value;
-          const lastname = signInForm['user_lastname'].value;
+          const email = registerForm['user_email'].value;
+          const password = registerForm['user_password'].value;
+          const firstname = registerForm['user_firstname'].value;
+          const lastname = registerForm['user_lastname'].value;
 
 
           // to create the new account
@@ -148,18 +148,18 @@
             var fname = firstname;
             var lname = lastname;
 
-            console.log(user);
-
-            console.log(user.uid);
-
             let fullname = fname + " " + lname; 
+            var set_return = 1;
             return db.collection('Users').doc(user.uid).set({
                 fullname: fullname,
                 email: email,
                 address: '',
                 phonenumber: '',
-                profile: ''
-            });      
+                profile: '',
+                usertype: 'Businessowner'
+            }).then(() => {
+               location.href = 'index.html'
+            });
           })
            .catch((error) => {
              var errorCode = error.code;

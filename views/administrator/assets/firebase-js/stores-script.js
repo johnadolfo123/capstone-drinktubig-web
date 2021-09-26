@@ -46,7 +46,7 @@ storesRef.onSnapshot(snapshot => {
                     <td class="stores-phone">${stores.StoreOpen}</td>
                     <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
             		<td>
-						<a href="#" id="${doc.id}" class="view js-view-stores"><a href="view_stores_product.html" class="btn btn-info btn-sm">VIEW</a>
+						<a href="view_stores_product.html" id="${doc.id}" class="view btn btn-info btn-sm js-view-stores">VIEW</a>
 						</a>
 					</td>
             </tr>`;

@@ -32,19 +32,25 @@ usersRef.onSnapshot(snapshot => {
     console.log('displayUsers');
 
     let users = usersRef;
-    // .startAfter(doc || 0).limit(10000)
 
-    const data = await users.get();
+    let usersBusinessOwner = users.where("usertype", "==", "Businessowner");
+    // .startAfter(doc || 0).limit(10000)
+    const data = await usersBusinessOwner.get();
 
     data.docs.forEach(doc => {
-        const users = doc.data();
+        const usersBusinessOwner = doc.data();
+        var usertype = usersBusinessOwner.usertype;
+
+        if(usertype == 'Businessowner') {
+        	var display = 'Business Owner';
+        }
 
         let item =
             `<tr data-id="${doc.id}">
-                    <td class="users-name">${users.fullname}</td>
-                    <td class="users-email">${users.email}</td>
-                    <td class="users-phonenumber">${users.phoneNumber}</td>
-                    <td class="users-role">Business Owner</td>
+                    <td class="users-name">${usersBusinessOwner.fullname}</td>
+                    <td class="users-email">${usersBusinessOwner.email}</td>
+                    <td class="users-phonenumber">${usersBusinessOwner.phoneNumber}</td>
+                    <td class="users-role">${display}</td>
                     <td class="users-status"><span class="status-p bg-danger">Not Verified</span></td>
             </tr>`;
 

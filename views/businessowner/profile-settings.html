@@ -127,13 +127,13 @@
                         <div class="clearfix d-md-inline-block d-block">
                             <div class="user-profile m-0 p-2" style="background:none;">
                                 <img class="avatar user-thumb" src="assets/images/author/avatar.png" alt="avatar" style="border:1px solid black;padding:3px">
-                                <h4 class="user-name dropdown-toggle" data-toggle="dropdown" style="color:black"> Ray Vincent Laborte <i class="fa fa-angle-down"></i></h4>
+                                <h4 class="user-name dropdown-toggle" data-toggle="dropdown" style="color:black"> <span id="display-name"></span> <i class="fa fa-angle-down"></i></h4>
                                 <div class="dropdown-menu">
 
                                 <a class="active dropdown-item pt-2" href="profile-settings.html" style="font-size:16px;">Profile Settings</a>
                                 
                                 <hr>
-                                 <a class="dropdown-item" href="../../login.html" style="font-size:16px;">Log Out</a>
+                                <button class="dropdown-item" style="font-size:16px;" onClick="signOut()">Log Out</button>
                             </div>
                             </div>
                         </div>
@@ -169,7 +169,11 @@
                         <h2 class="mt-5 mb-5">Profile Settings</h2>
                         <div class="row" style="height:100%">
                             <div class="col-md-3">
-                                <div href=# class="d-inline"><img src="https://image.flaticon.com/icons/svg/236/236831.svg" width=130px style="margin:0;"><br><p class="pl-2 mt-2"><a href="#" class="btn" style="color:#8f9096;font-weight:600">Edit Picture</a></p></div>  
+                                <div href=# class="d-inline">
+                                    <img src="https://image.flaticon.com/icons/svg/236/236831.svg" width=130px style="margin:0;"><br><p class="pl-2 mt-2">
+                                        <input type="file">
+                                    </p>
+                                </div>  
                             </div>
                             <div class="col-md-9">
                                 <div class="container">
@@ -236,6 +240,68 @@
     <!-- others plugins -->
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/scripts.js"></script>
+
+   <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+     <script>
+        var firebaseConfig = {
+          apiKey: "AIzaSyCoOjba1Ej7CJzg_sNXdfMUhQwqbV5Cruo",
+          authDomain: "drinktubig-bcaf5.firebaseapp.com",
+          projectId: "drinktubig-bcaf5",
+          storageBucket: "drinktubig-bcaf5.appspot.com",
+          messagingSenderId: "865738659083",
+          appId: "1:865738659083:web:60d90ffd1add62930a3e0e",
+          measurementId: "G-8ETGGW6B5L"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+
+    <script src="assets/firebase-js/profile-settings-script.js"></script>
+
+
+     <script>
+     $( document ).ready(function() {
+           firebase.auth().onAuthStateChanged((user) => {
+              if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                var uid = user.uid;
+                var user = user;
+                
+                var docRef = db.collection('Users').doc(uid);
+
+
+                 docRef.get().then((doc) => {
+                    const curr_users = doc.data();
+                    
+                  $('#display-name').html(curr_users.fullname);
+
+                }).catch((error) => {
+                    console.log("Error getting document:", error);
+                });  
+
+              } else {
+                // User is signed out
+                signOut()
+              }
+            });
+       });
+    </script>
+
+    <script>
+        function signOut() {
+          //var user = firebase.auth().currentUser;
+          firebase.auth().signOut().then(function() {
+            console.log('Signed Out');
+            location.href = "../../login.html";
+          }, function(error) {
+            console.error('Sign Out Error', error);
+          });
+        }
+    </script>
+
 </body>
 
 </html>

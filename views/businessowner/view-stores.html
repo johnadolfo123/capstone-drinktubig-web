@@ -116,13 +116,13 @@
                         <div class="clearfix d-md-inline-block d-block">
                             <div class="user-profile m-0 p-2" style="background:none;">
                                 <img class="avatar user-thumb" src="assets/images/author/avatar.png" alt="avatar" style="border:1px solid black;padding:3px">
-                                <h4 class="user-name dropdown-toggle" data-toggle="dropdown" style="color:black"> Ray Vincent Laborte <i class="fa fa-angle-down"></i></h4>
+                                <h4 class="user-name dropdown-toggle" data-toggle="dropdown" style="color:black"> <span id="display-name"></span> <i class="fa fa-angle-down"></i></h4>
                                 <div class="dropdown-menu">
 
                                 <a class="dropdown-item pt-2" href="profile-settings.html" style="font-size:16px;">Profile Settings</a>
                                 
                                 <hr>
-                                 <a class="dropdown-item" href="../../login.html" style="font-size:16px;">Log Out</a>
+                               <button class="dropdown-item" style="font-size:16px;" onClick="signOut()">Log Out</button>
                             </div>
                             </div>
                         </div>
@@ -216,9 +216,29 @@
                             <input type="text" id="stores-name" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label>Address</label>
-                            <textarea id="stores-address" class="form-control" required></textarea>
+                            <label>Store Address</label>
+                           <div class="input-group mb-3">
+                              <input type="text" class="form-control" id="stores-address" required>
+                              <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" onclick="getAddress();"><i class="fa fa-search"></i></button>
+                              </div>
+                            </div>
                         </div>
+
+                      
+                        <div class="form-group">
+                            <div class="row">
+                            <div class="col-md-6">
+                             <label>Store Latitude</label>
+                             <input class="form-control" type="text" id="stores-lat" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Store Longtitude</label>
+                              <input class="form-control" type="text" id="stores-lng" disabled>
+                            </div>
+                         </div>
+                        </div>
+                     
                         <div class="form-group">
                             <label>Phone</label>
                             <input type="text" id="stores-phone" class="form-control" required>
@@ -228,6 +248,7 @@
                         <input type="submit" class="btn btn-success" value="Add">
                         <input type="button" class="btn btn-danger" data-dismiss="modal" value="Cancel">
                     </div>
+
                 </form>
             </div>
         </div>
@@ -262,7 +283,13 @@
                         <div class="form-group">
                             <label>Address</label>
                             <textarea id="stores-address" class="form-control" required></textarea>
+
                         </div>
+
+                        <div class="form-group">
+                            
+                        </div>
+            
                         <div class="form-group">
                             <label>Phone</label>
                             <input type="text" id="stores-phone" class="form-control" required>
@@ -318,9 +345,19 @@
     <!-- others plugins -->
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/scripts.js"></script>
+
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js"></script>
+    <script src="https://unpkg.com/mapbox@1.0.0-beta9/dist/mapbox-sdk.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
     
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+
+
      <script>
         var firebaseConfig = {
           apiKey: "AIzaSyCoOjba1Ej7CJzg_sNXdfMUhQwqbV5Cruo",
@@ -334,7 +371,74 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
     </script>
+
     <script src="assets/firebase-js/stores-script.js"></script>
+
+    <script>
+        function getAddress(){
+        var address = document.getElementById('stores-address').value;
+        mapboxgl.accessToken = 'pk.eyJ1Ijoiam9obmFkb2xmbzEyMyIsImEiOiJja3Rndmg4dTAwbTZ1MnZxanNnbWFlNmYyIn0.S5Yvs93s5djIr8y5spdYWA';
+
+        var geocoder = new MapboxGeocoder({
+             accessToken: mapboxgl.accessToken
+         });
+
+          var client = new MapboxClient(mapboxgl.accessToken);
+
+          var test = client.geocodeForward(address, function(err, data, res) {
+                   // data is the geocoding result as parsed JSON
+                   // res is the http response, including: status, headers and entity properties
+             
+                   var coordinates = data.features[0].center;
+
+                   console.log(coordinates);
+                   $('#stores-lat').val(coordinates[1]);
+                   $('#stores-lng').val(coordinates[0]);
+          });
+        }
+     </script>
+
+     <script>
+     $( document ).ready(function() {
+           firebase.auth().onAuthStateChanged((user) => {
+              if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                var uid = user.uid;
+                var user = user;
+                
+                var docRef = db.collection('Users').doc(uid);
+
+
+                 docRef.get().then((doc) => {
+                    const curr_users = doc.data();
+                    
+                  $('#display-name').html(curr_users.fullname);
+
+                }).catch((error) => {
+                    console.log("Error getting document:", error);
+                });  
+
+              } else {
+                // User is signed out
+                signOut()
+              }
+            });
+       });
+    </script>
+
+    <script>
+        function signOut() {
+          //var user = firebase.auth().currentUser;
+          firebase.auth().signOut().then(function() {
+            console.log('Signed Out');
+            location.href = "../../login.html";
+          }, function(error) {
+            console.error('Sign Out Error', error);
+          });
+        }
+    </script>
+
 </body>
 
 </html>

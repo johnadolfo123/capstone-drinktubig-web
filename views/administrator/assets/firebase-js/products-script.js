@@ -1,4 +1,4 @@
-let productsRef = db.collection('stores').doc('ulhGd3YodkKW2OrakLno').collection('products');
+let productsRef = db.collection('StoreList').doc('Drink Tubig huyong-huyong').collection('StoreProducts');
 let deleteIDs = [];
 
 // REAL TIME LISTENER
@@ -40,8 +40,9 @@ productsRef.onSnapshot(snapshot => {
         const products = doc.data();
         let item =
             `<tr data-id="${doc.id}">
-                    <td class="products-name">${products.product_name}</td>
-                    <td class="products-address">${products.product_price}</td>
+                    <td class="products-name">${products.Product_Name}</td>
+                    <td class="products-price">${products.Product_Price}</td>
+                    <td class="products-category">${products.Product_Category}</td>
             </tr>`;
 
         $('#products-table').append(item);
