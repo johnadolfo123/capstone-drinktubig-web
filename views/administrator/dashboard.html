@@ -311,14 +311,16 @@
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 var uid = user.uid;
                 var user = user;
-           
-                $('#display-name').html(user.displayName);
+
+                console.log(user);
+                console.log(user.displayName);
+
                   
-                 } else {
-                    accessDenied();
                  }
                });
-             });
+           
+        });
+
      </script>
 
 
