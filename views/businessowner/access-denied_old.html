@@ -20,37 +20,36 @@
     <link rel="stylesheet" href="assets/css/responsive.css">
     <!-- modernizr css -->
     <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
 
-    <style>
-    	body {
-    		background-color: black;
-    		color: white;
-   		}
-    
-    	h1 {
-    		color: red;
-    	}
-    
-    	h6 {
-    		color: red;
-    		text-decoration: underline;
-    	}
-    
-    </style>
-  </head>
+
 <body>
-	 <!-- page container area start -->
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+  
+    <!-- page container area start -->
     <div class="page-container">
-		<div class="w3-display-middle">
-			<h1 class="w3-jumbo w3-animate-top w3-center"><code>Access Denied</code></h1>
-			<hr class="w3-border-white w3-animate-left" style="margin:auto;width:50%">
-			<h3 class="w3-center w3-animate-right">You dont have permission to view this site.</h3>
-			<h3 class="w3-center w3-animate-zoom">🚫🚫🚫🚫</h3>
-			<h6 class="w3-center w3-animate-zoom">error code:403 forbidden</h6>
-		</div>
-	</div>
+   
+       <section class="section">
+      <div class="container mt-5">
+        <div class="page-error">
+          <div class="page-inner">
+            <div class="page-description">
+                <img src="../../assets/images/you-shall-not-pass.jpg" style="width:800px;">
+            </div>
+            <div class="page-search">
+              <div class="mt-3">
+                 <button class="btn btn-danger" style="font-size:16px;" onClick="signOut()">Return Back To Login Page</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
- <!-- jquery latest version -->
+    </div>
+    <!-- jquery latest version -->
     <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
     <!-- bootstrap 4 js -->
     <script src="assets/js/popper.min.js"></script>
