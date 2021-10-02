@@ -228,33 +228,31 @@
     </script>
     <script src="assets/firebase-js/stores-script.js"></script>
 
+    <script>
+        function accessDenied() {
+            location.href = "access-denied.html";
+        }
+    </script>
+
      <script>
      $( document ).ready(function() {
-           firebase.auth().onAuthStateChanged((user) => {
+         firebase.auth().onAuthStateChanged((user) => {
               if (user) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 var uid = user.uid;
                 var user = user;
-                
-                var docRef = db.collection('Users').doc(uid);
+           
+                $('#display-name').html(user.displayName);
+                  
+                 } else {
+                    accessDenied();
+                 }
+               });
+             });
+     </script>
 
-                 docRef.get().then((doc) => {
-                    const curr_users = doc.data();
-                    
-                  $('#display-name').html(curr_users.fullname);
-
-                }).catch((error) => {
-                    console.log("Error getting document:", error);
-                });  
-              } else {
-                // User is signed out
-                signOut()
-              }
-            });
-       });
-    </script>
-
+     
     <script>
         function signOut() {
           //var user = firebase.auth().currentUser;

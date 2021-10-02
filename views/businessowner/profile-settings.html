@@ -168,13 +168,6 @@
                         <div class="container content clear-fix">
                         <h2 class="mt-5 mb-5">Profile Settings</h2>
                         <div class="row" style="height:100%">
-                            <div class="col-md-3">
-                                <div href=# class="d-inline">
-                                    <img src="https://image.flaticon.com/icons/svg/236/236831.svg" width=130px style="margin:0;"><br><p class="pl-2 mt-2">
-                                        <input type="file">
-                                    </p>
-                                </div>  
-                            </div>
                             <div class="col-md-9">
                                 <div class="container">
                                     <form>
@@ -261,34 +254,29 @@
     <script src="assets/firebase-js/profile-settings-script.js"></script>
 
 
+    <script>
+        function accessDenied() {
+            location.href = "access-denied.html";
+        }
+    </script>
+
      <script>
      $( document ).ready(function() {
-           firebase.auth().onAuthStateChanged((user) => {
+         firebase.auth().onAuthStateChanged((user) => {
               if (user) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 var uid = user.uid;
                 var user = user;
-                
-                var docRef = db.collection('Users').doc(uid);
-
-
-                 docRef.get().then((doc) => {
-                    const curr_users = doc.data();
-                    
-                  $('#display-name').html(curr_users.fullname);
-
-                }).catch((error) => {
-                    console.log("Error getting document:", error);
-                });  
-
-              } else {
-                // User is signed out
-                signOut()
-              }
-            });
-       });
-    </script>
+           
+                $('#display-name').html(user.displayName);
+                  
+                 } else {
+                    accessDenied();
+                 }
+               });
+             });
+     </script>
 
     <script>
         function signOut() {

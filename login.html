@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="form-gp">
                                     <label for="exampleInputPassword1">Password</label>
-                                    <input type="password" id="user_password">
+                                    <input type="text" id="user_password">
                                     <i class="fa fa-unlock-alt"></i>
                                     <div class="mt-3 text-right">
                                     <a href="forgot_password.html">Forgot Password</a></div> 
@@ -127,9 +127,24 @@
               if (doc.exists) { 
                  if(curr_users.usertype == "Administrator") {
                   //Handle Account Status
-                      location.href = 'views/administrator/dashboard.html';  
+                     // use this only for the dashboard                   
+                     user.updateProfile({
+                        displayName: curr_users.fullname,
+                      }).then(() => {
+                           location.href = 'views/administrator/dashboard.html';  
+                      }).catch((error) => {
+                            // An error occurred
+                            // ...
+                      });  
                     } else if(curr_users.usertype == "Businessowner") {
-                        location.href = 'views/businessowner/dashboard.html';
+                        user.updateProfile({
+                          displayName: curr_users.fullname,
+                        }).then(() => {
+                              location.href = 'views/businessowner/dashboard.html';
+                        }).catch((error) => {
+                              // An error occurred
+                              // ...
+                        });  
                   } else {
                     console.log("Error");
                   }
