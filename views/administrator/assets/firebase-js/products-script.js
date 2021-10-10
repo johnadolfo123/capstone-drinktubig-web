@@ -1,4 +1,4 @@
-let productsRef = db.collection('StoreList').doc('Drink Tubig huyong-huyong').collection('StoreProducts');
+let productsRef = db.collection('ProductList');
 let deleteIDs = [];
 
 // REAL TIME LISTENER
