@@ -8,12 +8,13 @@ $( document ).ready(function() {
 
                 var storeOwnerID = uid;
 
-                        
 let storesRef = db.collection('StoreList');
+let productsRef = db.collection('ProductList');
+
 let deleteIDs = [];
 
 // REAL TIME LISTENER
-storesRef.onSnapshot(snapshot => {
+productsRef.onSnapshot(snapshot => {
 	let changes = snapshot.docChanges();
 	changes.forEach(change => {
 		if (change.type == 'added') {
@@ -28,7 +29,7 @@ storesRef.onSnapshot(snapshot => {
 });
 
 // GET TOTAL SIZE
-storesRef.onSnapshot(snapshot => {
+productsRef.onSnapshot(snapshot => {
 	let size = snapshot.size;
 	$('.count').text(size);
 	if (size == 0) {
@@ -39,19 +40,18 @@ storesRef.onSnapshot(snapshot => {
 });
 
 
- const displayStores = async (doc) => {
-    console.log('displayStores');
+ const displayProducts = async (doc) => {
+    console.log('displayProducts');
 
-    let stores = storesRef;
+    // let stores = sztoresRef;
     // .startAfter(doc || 0).limit(10000)
 
-
-    let storesOwnerQuery = stores.where("User_ID", "==", storeOwnerID);
+    let products = productsRef;
     
-    const data = await storesOwnerQuery.get();
+    const data = await products.get();
 
     data.docs.forEach(doc => {
-        const stores = doc.data();
+        const products = doc.data();
      //    let item =
      //         `<tr data-id="${doc.id}">
      //         		<td class="stores-name">${stores.StoreName}</td>
@@ -79,25 +79,23 @@ storesRef.onSnapshot(snapshot => {
 
              let item =
              `<tr data-id="${doc.id}">
-             		<td class="stores-name">${stores.StoreName}</td>
-                    <td class="stores-address">${stores.StoreLocation}</td>
-                    <td class="stores-sitio">${stores.StoreSitio}</td>
-                    <td class="stores-phone">${stores.StoreContactNumber}</td>
-                    <td class="stores-opentime">${stores.StoreOpen}</td>
-                    <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
+             		<td class="products-name">${products.Product_Name}</td>
+                    <td class="products-price">${products.Product_Price}</td>
+                    <td class="products-category">${products.Product_Category}</td>
+                    <td class="products-status"><span class="status-p bg-danger">Not Available</span></td>
             		<td>
-						<a href="#editStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-stores btn btn-primary btn-sm">
+						<a href="#editProductsModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-products btn btn-primary btn-sm">
 							EDIT 
 						</a>
 					</td>
 					<td>
-						<a href="#deleteStoresModal" data-toggle="modal" id="${doc.id}" class="delete js-delete-stores btn btn-danger btn-sm">
+						<a href="#deleteProductsModal" data-toggle="modal" id="${doc.id}" class="delete js-delete-products btn btn-danger btn-sm">
 							DELETE 
 						</a>
 					</td>
             </tr>`;
 
-        $('#stores-table').append(item);
+        $('#products-table').append(item);
     });
 
     // UPDATE LATEST DOC
@@ -109,41 +107,46 @@ storesRef.onSnapshot(snapshot => {
 $(document).ready(function () {
 
 	let latestDoc = null;
+	
+	// getStoreOwnerStoreID.get().then((doc) => {
+	// 	 const curr_stores = doc.data();
 
-	// this variable contains the current user ID
-	var getStoresOwnerID = storeOwnerID;
+	// 	 console.log(curr_stores);
+
+	// 	 var passStoreName = curr_stores.StoreName;
+
+	//  }).catch((error) => {
+ //            console.log("Error getting document:", error);
+ //     }); 
+
 
 	// LOAD INITIAL DATA
-	displayStores();
+	displayProducts();
 
 	// LOAD MORE
 	$(document).on('click', '.js-loadmore', function () {
-		displayStores(latestDoc);
+		displayProducts(latestDoc);
 	});
 
 	// ADD STORES
-	$("#add-stores-form").submit(function (event) {
+	$("#add-products-form").submit(function (event) {
 		event.preventDefault();
-		let storesName = $('#stores-name').val();
-		let storesAddress = $('#stores-address').val();
-		let storesSitio = $('#stores-sitio').val();
-		let storesPhone =  $('#stores-phone').val();
-		let storesOpen = '9:00AM';
-		//let trimStoreName= storesName.trim(storesName);
-
-		var trimStoreName = storesName.replace(/\s/g, ''); 
-		console.log(trimStoreName);
-		let storesID = trimStoreName + "-" + storesSitio; 
-
-		db.collection('StoreList').doc(storesID).set({
-			User_ID: getStoresOwnerID,
-			StoreName: storesName,
-			StoreLocation: storesAddress,
-			StoreSitio: storesSitio,
-			StoreContactNumber: storesPhone
-			// createdAt : firebase.firestore.FieldValue.serverTimestamp()
-			}).then(function() {
-				$("#addStoresModal").modal('hide');
+		let productsName = $('#products-name').val();
+		let productsPrice = $('#products-price').val();
+		let productsCategory = $('#products-category').val();
+		let productsStatus = 'Not Available';
+		
+		db.collection('ProductList').add({
+			Product_Name: productsName,
+			Product_Price: productsPrice,
+			Product_Category: productsCategory,
+			Product_Status: productsStatus
+			// Store_ID: getStoreOwnerStoreID,
+			// Store_Name: passStoreName 
+			// // createdAt : firebase.firestore.FieldValue.serverTimestamp()
+			}).then(function(doc) {
+				console.log("Document written with ID: ", doc.id);
+				$("#addProductsModal").modal('hide');
 				// let newStores =
 				//  `<tr data-id="${storesID}">
 				//  	<td class="stores-name">${storesName}</td>
@@ -169,26 +172,24 @@ $(document).ready(function () {
     //         </tr>`;
 
             let newStores =
-				 `<tr data-id="${storesID}">
-				 	<td class="stores-name">${storesName}</td>
-                    <td class="stores-address">${storesAddress}</td>
-                    <td class="stores-sitio">${storesSitio}</td>
-                    <td class="stores-phone">${storesPhone}</td>
-                    <td class="stores-phone">${storesOpen}</td>
-                    <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
+				 `<tr data-id="${doc.id}">
+				 	<td class="products-name">${productsName}</td>
+                    <td class="products-price">${productsPrice}</td>
+                    <td class="products-category">${productsCategory}</td>
+                    <td class="products-status"><span class="status-p bg-danger">Not Available</span></td>
             		<td>
-						<a href="#editStoresModal" data-toggle="modal" id="${storesID}" class="edit js-edit-stores btn btn-primary btn-sm">
+						<a href="#editProductsModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-products btn btn-primary btn-sm">
 							EDIT 
 						</a>
 					</td>
 					<td>
-						<a href="#deleteStoresModal" data-toggle="modal" id="${storesID}" class="delete js-delete-stores btn btn-danger btn-sm">
+						<a href="#deleteProductsModal" data-toggle="modal" id="${doc.id}" class="delete js-delete-products btn btn-danger btn-sm">
 							DELETE 
 						</a>
 					</td>
             </tr>`;
 
-			$('#stores-table tbody').prepend(newStores);
+			$('#products-table tbody').prepend(newStores);
 			})
 			.catch(function (error) {
 				console.error("Error writing document: ", error);
@@ -196,18 +197,16 @@ $(document).ready(function () {
 	});
 
 	// UPDATE STORES
-	$(document).on('click', '.js-edit-stores', function (e) {
+	$(document).on('click', '.js-edit-products', function (e) {
 		e.preventDefault();
 		let id = $(this).attr('id');
-		$('#edit-stores-form').attr('edit-id', id);
-		db.collection('StoreList').doc(id).get().then(function (document) {
+		$('#edit-products-form').attr('edit-id', id);
+		db.collection('ProductList').doc(id).get().then(function (document) {
 			if (document.exists) {
-				$('#edit-stores-form #stores-sitio').val(document.data().StoreSitio);
-				$('#edit-stores-form #stores-name').val(document.data().StoreName);
-				$('#edit-stores-form #stores-address').val(document.data().StoreLocation);
-				$('#edit-stores-form #stores-phone').val(document.data().StoreContactNumber);
-				$('#edit-stores-form #stores-opentime');
-				$('#editStoresModal').modal('show');
+				$('#edit-products-form #products-name').val(document.data().Product_Name);
+				$('#edit-products-form #products-price').val(document.data().Product_Price);
+				$('#edit-products-form #products-category').val(document.data().Product_Category);
+				$('#editProductsModal').modal('show');
 			} else {
 				console.log("No such document!");
 			}
@@ -216,50 +215,45 @@ $(document).ready(function () {
 		});
 	});
 
-	$("#edit-stores-form").submit(function (event) {
+	$("#edit-products-form").submit(function (event) {
 		event.preventDefault();
 		let id = $(this).attr('edit-id');
-		let storeSitio = $('#edit-stores-form #stores-sitio').val();
-		let storeName = $('#edit-stores-form #stores-name').val();
-		let storeAddress = $('#edit-stores-form #stores-address').val();
-		let storePhone =  $('#edit-stores-form  #stores-phone').val();
-
-		db.collection('StoreList').doc(id).update({
-			User_ID: getStoresOwnerID,
-			StoreSitio: storeSitio,
-			StoreName: storeName,
-			StoreLocation: storeAddress,
-			StoreContactNumber: storePhone,
+		let productsName = $('#edit-products-form #products-name').val();
+		let productsPrice = $('#edit-products-form #products-price').val();
+		let productsCategory = $('#edit-products-form #products-category').val();
+	
+		db.collection('ProductList').doc(id).update({
+			Product_Name: productsName,
+			Product_Price: productsPrice,
+			Product_Category: productsCategory,
 			updatedAt : firebase.firestore.FieldValue.serverTimestamp()
 		});
 
-		$('#editStoresModal').modal('hide');
+		$('#editProductsModal').modal('hide');
 
 		// SHOW UPDATED DATA ON BROWSER
-		$('tr[data-id=' + id + '] td.stores-sitio').html(storeSitio);
-		$('tr[data-id=' + id + '] td.stores-name').html(storeName);
-		$('tr[data-id=' + id + '] td.stores-address').html(storeAddress);
-		$('tr[data-id=' + id + '] td.stores-phone').html(storePhone);
-		$('tr[data-id=' + id + '] td.stores-opentime').html('9:00 AM');
+		$('tr[data-id=' + id + '] td.products-name').html(productsName);
+		$('tr[data-id=' + id + '] td.products-price').html(productsPrice);
+		$('tr[data-id=' + id + '] td.products-category').html(productsCategory);
 	});
 
 	// DELETE EMPLOYEE
-	$(document).on('click', '.js-delete-stores', function (e) {
+	$(document).on('click', '.js-delete-products', function (e) {
 		e.preventDefault();
 		let id = $(this).attr('id');
 		console.log(id);
-		$('#delete-stores-form').attr('delete-id', id);
-		$('#deleteStoresModal').modal('show');
+		$('#delete-products-form').attr('delete-id', id);
+		$('#deleteProductsModal').modal('show');
 	});
 
-	$("#delete-stores-form").submit(function (event) {
+	$("#delete-products-form").submit(function (event) {
 		event.preventDefault();
 		let id = $(this).attr('delete-id');
 		if (id != undefined) {
-			db.collection('StoreList').doc(id).delete()
+			db.collection('ProductList').doc(id).delete()
 				.then(function () {
 					console.log("Document successfully delete!");
-					$("#deleteStoresModal").modal('hide');
+					$("#deleteProductsModal").modal('hide');
 				})
 				.catch(function (error) {
 					console.error("Error deleting document: ", error);
@@ -276,7 +270,7 @@ $(document).ready(function () {
 			// 			console.error("Error deleting document: ", error);
 			// 		});
 			// });
-			$("#deleteStoresModal").modal('hide');
+			$("#deleteProductsModal").modal('hide');
 		}
 	});
 	// DELETE END
@@ -286,7 +280,7 @@ $(document).ready(function () {
 		$('#employee-table tbody').html('');
 		let nameKeyword = $("#search-name").val();
 		console.log(nameKeyword);
-		storesRef.orderBy('name', 'asc').startAt(nameKeyword).endAt(nameKeyword + "\uf8ff").get()
+		productsRef.orderBy('name', 'asc').startAt(nameKeyword).endAt(nameKeyword + "\uf8ff").get()
 			.then(function (documentSnapshots) {
 				documentSnapshots.docs.forEach(doc => {
 					renderEmployee(doc);
@@ -295,12 +289,12 @@ $(document).ready(function () {
 	});
 
 	// RESET FORMS
-	$("#addStoresModal").on('hidden.bs.modal', function () {
-		$('#add-stores-form .form-control').val('');
+	$("#addProductsModal").on('hidden.bs.modal', function () {
+		$('#add-products-form .form-control').val('');
 	});
 
-	$("#editStoresModal").on('hidden.bs.modal', function () {
-		$('#edit-employee-form .form-control').val('');
+	$("#editProductsModal").on('hidden.bs.modal', function () {
+		$('#edit-products-form .form-control').val('');
 	});
 });
 

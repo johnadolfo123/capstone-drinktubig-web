@@ -264,5 +264,35 @@
           });
         }
     </script>
+
+
+    <script>
+        // function testJS() {
+        //     var test = getElementByClassName('view').value;
+
+        //     console.log(test);
+        // }
+
+//         $(document).ready(function()
+// {
+//    alert("ready");
+//    $("a").click(function()
+//    {
+//       alert("click");
+//       var pos = $(this).attr('id');
+//       alert(pos);
+//       $('#vids').val(pos);
+//    });
+//  });
+
+       $(document).ready(function() {
+        $('a.js-view-stores-show').click(function() {
+             var id = $(this).attr('id');
+             alert(id);
+             console.log(id);
+        });
+       });
+    </script>
+
 </body>
 </html>
