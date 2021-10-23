@@ -47,8 +47,10 @@ productsRef.onSnapshot(snapshot => {
     // .startAfter(doc || 0).limit(10000)
 
     let products = productsRef;
+
+    let productsQuery = products.where("Store_Owner_ID", "==", storeOwnerID);
     
-    const data = await products.get();
+    const data = await productsQuery.get();
 
     data.docs.forEach(doc => {
         const products = doc.data();
@@ -83,6 +85,7 @@ productsRef.onSnapshot(snapshot => {
                     <td class="products-price">${products.Product_Price}</td>
                     <td class="products-category">${products.Product_Category}</td>
                     <td class="products-status"><span class="status-p bg-danger">Not Available</span></td>
+            		<td class="store-branches">${products.Store_Name}</td>
             		<td>
 						<a href="#editProductsModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-products btn btn-primary btn-sm">
 							EDIT 
@@ -100,6 +103,33 @@ productsRef.onSnapshot(snapshot => {
 
     // UPDATE LATEST DOC
     latestDoc = data.docs[data.docs.length - 1];
+
+ 
+
+ // Display Store Branches In Select Form 
+ var docRefTest = db.collection('StoreList');
+ let storeBranches = docRefTest.where("StoreOwner_ID", "==", storeOwnerID);
+
+ const dataStores = await storeBranches.get();
+
+ dataStores.docs.forEach(doc => { 
+
+	 const branches = doc.data();
+
+	 $('#store-branches').append('<option value="' + doc.id + '">' + branches.StoreName
+     + '</option>');
+
+
+	
+});
+
+ $("#store-branches").change(function(){
+   var selectedBranchName = $(this).children("option:selected").text();
+    $('#store-branches-name').val(selectedBranchName);
+});
+
+    
+
 }
 
 // addTestData();
@@ -134,13 +164,19 @@ $(document).ready(function () {
 		let productsName = $('#products-name').val();
 		let productsPrice = $('#products-price').val();
 		let productsCategory = $('#products-category').val();
+		let productsStoreBranch = $('#store-branches').val();
 		let productsStatus = 'Not Available';
+		let productsStoreBranchName = $('#store-branches-name').val();
+		let storeOwnerId = $('#store-owner-id').val();
 		
 		db.collection('ProductList').add({
 			Product_Name: productsName,
 			Product_Price: productsPrice,
 			Product_Category: productsCategory,
-			Product_Status: productsStatus
+			Product_Status: productsStatus,
+			Store_ID: productsStoreBranch,
+			Store_Name: productsStoreBranchName,
+			Store_Owner_ID: storeOwnerID
 			// Store_ID: getStoreOwnerStoreID,
 			// Store_Name: passStoreName 
 			// // createdAt : firebase.firestore.FieldValue.serverTimestamp()

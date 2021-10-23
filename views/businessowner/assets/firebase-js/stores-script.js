@@ -46,7 +46,7 @@ storesRef.onSnapshot(snapshot => {
     // .startAfter(doc || 0).limit(10000)
 
 
-    let storesOwnerQuery = stores.where("User_ID", "==", storeOwnerID);
+    let storesOwnerQuery = stores.where("StoreOwner_ID", "==", storeOwnerID);
     
     const data = await storesOwnerQuery.get();
 
@@ -136,7 +136,7 @@ $(document).ready(function () {
 		let storesID = trimStoreName + "-" + storesSitio; 
 
 		db.collection('StoreList').doc(storesID).set({
-			User_ID: getStoresOwnerID,
+			StoreOwner_ID: getStoresOwnerID,
 			StoreName: storesName,
 			StoreLocation: storesAddress,
 			StoreSitio: storesSitio,
@@ -225,7 +225,7 @@ $(document).ready(function () {
 		let storePhone =  $('#edit-stores-form  #stores-phone').val();
 
 		db.collection('StoreList').doc(id).update({
-			User_ID: getStoresOwnerID,
+			StoreOwner_ID: getStoresOwnerID,
 			StoreSitio: storeSitio,
 			StoreName: storeName,
 			StoreLocation: storeAddress,
