@@ -33,7 +33,7 @@ usersRef.onSnapshot(snapshot => {
 
     let users = usersRef;
 
-    let usersBusinessOwner = users.where("usertype", "==", "Businessowner");
+    let usersBusinessOwner = users.where("usertype", "!=", "Administrator");
     // .startAfter(doc || 0).limit(10000)
     const data = await usersBusinessOwner.get();
 
@@ -41,9 +41,15 @@ usersRef.onSnapshot(snapshot => {
         const usersBusinessOwner = doc.data();
         var usertype = usersBusinessOwner.usertype;
 
+        // display user status
         if(usertype == 'Businessowner') {
         	var display = 'Business Owner';
+        } else if(usertype == 'Customer') {
+        	var display = 'Customer';
         }
+
+        // display verification status
+
 
         let item =
             `<tr data-id="${doc.id}">
