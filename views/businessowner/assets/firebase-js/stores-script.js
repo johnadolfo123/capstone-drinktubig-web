@@ -135,12 +135,18 @@ $(document).ready(function () {
 		console.log(trimStoreName);
 		let storesID = trimStoreName + "-" + storesSitio; 
 
+		// add default store lat and long (tempo)
+		let storeLatitude = 10.321;
+		let storeLongtitude = 123.098;
+
 		db.collection('StoreList').doc(storesID).set({
 			StoreOwner_ID: getStoresOwnerID,
 			StoreName: storesName,
 			StoreLocation: storesAddress,
 			StoreSitio: storesSitio,
-			StoreContactNumber: storesPhone
+			StoreContactNumber: storesPhone,
+			StoreLat: storeLatitude,
+			StoreLong: storeLongtitude
 			// createdAt : firebase.firestore.FieldValue.serverTimestamp()
 			}).then(function() {
 				$("#addStoresModal").modal('hide');
