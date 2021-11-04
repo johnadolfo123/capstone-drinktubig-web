@@ -52,6 +52,7 @@ storesRef.onSnapshot(snapshot => {
 
     data.docs.forEach(doc => {
         const stores = doc.data();
+        var store_status = stores.StoreStatus;
      //    let item =
      //         `<tr data-id="${doc.id}">
      //         		<td class="stores-name">${stores.StoreName}</td>
@@ -77,6 +78,13 @@ storesRef.onSnapshot(snapshot => {
 					// </td>
      //        </tr>`;
 
+     		  // display user status
+		        if(store_status == 'Verified') {
+		        	var display = '<span class="status-p bg-success">Verified</span>';
+		        } else if(store_status == 'Not-Verified') {
+		        	var display = '<span class="status-p bg-danger">Not Verified</span>';
+		        }
+
              let item =
              `<tr data-id="${doc.id}">
              		<td class="stores-name">${stores.StoreName}</td>
@@ -84,7 +92,7 @@ storesRef.onSnapshot(snapshot => {
                     <td class="stores-sitio">${stores.StoreSitio}</td>
                     <td class="stores-phone">${stores.StoreContactNumber}</td>
                     <td class="stores-opentime">${stores.StoreOpen}</td>
-                    <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
+                    <td class="stores-status">${display}</td>
             		<td>
 						<a href="#editStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-stores btn btn-primary btn-sm">
 							EDIT 

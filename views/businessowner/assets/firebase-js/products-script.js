@@ -79,6 +79,7 @@ productsRef.onSnapshot(snapshot => {
 					// </td>
      //        </tr>`;
 
+     		
              let item =
              `<tr data-id="${doc.id}">
              		<td class="products-name">${products.Product_Name}</td>
@@ -106,9 +107,9 @@ productsRef.onSnapshot(snapshot => {
 
  
 
- // Display Store Branches In Select Form 
+ // Display Store Branches In Select Form To All Verified Store Status
  var docRefTest = db.collection('StoreList');
- let storeBranches = docRefTest.where("StoreOwner_ID", "==", storeOwnerID);
+ let storeBranches = docRefTest.where("StoreOwner_ID", "==", storeOwnerID).where("StoreStatus", "==", "Verified");
 
  const dataStores = await storeBranches.get();
 
@@ -119,8 +120,6 @@ productsRef.onSnapshot(snapshot => {
 	 $('#store-branches').append('<option value="' + doc.id + '">' + branches.StoreName
      + '</option>');
 
-
-	
 });
 
  $("#store-branches").change(function(){
@@ -213,6 +212,7 @@ $(document).ready(function () {
                     <td class="products-price">${productsPrice}</td>
                     <td class="products-category">${productsCategory}</td>
                     <td class="products-status"><span class="status-p bg-danger">Not Available</span></td>
+            		<td class="store-branches">${productsStoreBranchName}</td>
             		<td>
 						<a href="#editProductsModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-products btn btn-primary btn-sm">
 							EDIT 
