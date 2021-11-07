@@ -144,8 +144,11 @@ $(document).ready(function () {
 		let storesID = trimStoreName + "-" + storesSitio; 
 
 		// add default store lat and long (tempo)
-		let storeLatitude = 10.321;
-		let storeLongtitude = 123.098;
+		let storeLatitude = 0.1;
+		let storeLongtitude = 0.1;
+
+		// default store status
+		let storeStatus = "Not-Verified";
 
 		db.collection('StoreList').doc(storesID).set({
 			StoreOwner_ID: getStoresOwnerID,
@@ -154,7 +157,8 @@ $(document).ready(function () {
 			StoreSitio: storesSitio,
 			StoreContactNumber: storesPhone,
 			StoreLat: storeLatitude,
-			StoreLong: storeLongtitude
+			StoreLong: storeLongtitude,
+			StoreStatus: storeStatus
 			// createdAt : firebase.firestore.FieldValue.serverTimestamp()
 			}).then(function() {
 				$("#addStoresModal").modal('hide');

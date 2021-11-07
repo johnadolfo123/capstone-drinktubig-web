@@ -38,14 +38,26 @@ storesRef.onSnapshot(snapshot => {
 
     data.docs.forEach(doc => {
         const stores = doc.data();
+        var store_status = stores.StoreStatus; 
+   
+       	// display user status
+		 if(store_status == 'Verified') {
+		        	var display = '<span class="status-p bg-success">Verified</span>';
+		        	var display_accept = '';
+		        } else if(store_status == 'Not-Verified') {
+		        	var display = '<span class="status-p bg-danger">Not Verified</span>';
+		        	var display_accept = '<a href="#" class="btn btn-primary btn-sm text-white">Accept</a>';
+		        }
+
         let item =
             `<tr data-id="${doc.id}">
                     <td class="stores-name">${stores.StoreName}</td>
                     <td class="stores-address">${stores.StoreLocation}</td>
                     <td class="stores-phone">${stores.StoreContactNumber}</td>
                     <td class="stores-phone">${stores.StoreOpen}</td>
-                    <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
+                    <td class="stores-status">${display}</td>
             		<td>
+            			${display_accept}
 						<a href="view_stores_product.html?id=${doc.id}" id="${doc.id}" class="view btn btn-info btn-sm js-view-stores">VIEW</a>
 						</a>
 					</td>
