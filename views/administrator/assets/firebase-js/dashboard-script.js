@@ -9,11 +9,11 @@ $( document ).ready(function() {
                 var storeOwnerID = uid;
 
                         
-let storesRef = db.collection('StoreList');
+let accountsRef = db.collection('Users');
 let deleteIDs = [];
 
 // REAL TIME LISTENER
-storesRef.onSnapshot(snapshot => {
+accountsRef.onSnapshot(snapshot => {
 	let changes = snapshot.docChanges();
 	changes.forEach(change => {
 		if (change.type == 'added') {
@@ -28,7 +28,7 @@ storesRef.onSnapshot(snapshot => {
 });
 
 // GET TOTAL SIZE
-storesRef.onSnapshot(snapshot => {
+accountsRef.onSnapshot(snapshot => {
 	let size = snapshot.size;
 	$('.count').text(size);
 	if (size == 0) {
@@ -39,20 +39,20 @@ storesRef.onSnapshot(snapshot => {
 });
 
 
- const displayStores = async (doc) => {
-    console.log('displayStores');
+ const displayAccounts = async (doc) => {
+    console.log('displayAccounts');
 
-    let stores = storesRef;
+    let accounts = accountsRef;
     // .startAfter(doc || 0).limit(10000)
 
 
-    let storesOwnerQuery = stores.where("StoreOwner_ID", "==", storeOwnerID);
+    let accountsOwnerQuery = accounts.where("usertype", "!=" ,"Administrator");
     
-    const data = await storesOwnerQuery.get();
+    const data = await accountsOwnerQuery.get();
 
     data.docs.forEach(doc => {
-        const stores = doc.data();
-        var store_status = stores.StoreStatus;
+        const accounts = doc.data();
+        var accounts_status = accounts.status;
      //    let item =
      //         `<tr data-id="${doc.id}">
      //         		<td class="stores-name">${stores.StoreName}</td>
@@ -79,33 +79,27 @@ storesRef.onSnapshot(snapshot => {
      //        </tr>`;
 
      		  // display user status
-		        if(store_status == 'Verified') {
-		        	var display = '<span class="status-p bg-success">Verified</span>';
-		        } else if(store_status == 'Not-Verified') {
-		        	var display = '<span class="status-p bg-danger">Not Verified</span>';
+		        if(accounts_status == 'active') {
+		        	var display = '<span class="status-p bg-success">Active</span>';
+		        } else if(accounts_status == 'banned') {
+		       		var display = '<span class="status-p bg-danger">Banned</span>';
 		        }
+
+		        // default values lang sa ron;
+		        var accountsCustomerName = "Test test";
 
              let item =
              `<tr data-id="${doc.id}">
-                    <td class="stores-image"><img src="${stores.StoreImage}"> ${stores.StoreImage}</td>
-             		<td class="stores-name">${stores.StoreName}</td>
-                    <td class="stores-address">${stores.StoreLocation}</td>
-                    <td class="stores-sitio">${stores.StoreSitio}</td>
-                    <td class="stores-phone">${stores.StoreContactNumber}</td>
-                    <td class="stores-status">${display}</td>
-            		<td>
-						<a href="#editStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-stores btn btn-primary btn-sm">
-							EDIT 
-						</a>
-					</td>
-					<td>
-						<a href="#deleteStoresModal" data-toggle="modal" id="${doc.id}" class="delete js-delete-stores btn btn-danger btn-sm">
-							DELETE 
-						</a>
-					</td>
+                    <td class="accounts-name">${accounts.fullname}</td>
+                    <td class="accounts-address">${accounts.usertype}</td>
+                    <td class="accounts-sitio">${display}</td>
+                    <td class="accounts-sitio">11/21/2021</td>
             </tr>`;
 
-        $('#stores-table').append(item);
+        $('#accounts-table').append(item);
+
+        console.log(item);
+
     });
 
     // UPDATE LATEST DOC
@@ -122,11 +116,11 @@ $(document).ready(function () {
 	var getStoresOwnerID = storeOwnerID;
 
 	// LOAD INITIAL DATA
-	displayStores();
+	displayAccounts();
 
 	// LOAD MORE
 	$(document).on('click', '.js-loadmore', function () {
-		displayStores(latestDoc);
+		displayAccounts(latestDoc);
 	});
 
 	// ADD STORES

@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>DrinkTubig: Mobile Based Water Refilling Stations Ordering and Delivery System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
+    <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon/favicon.ico">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/themify-icons.css">
@@ -163,7 +163,7 @@
                                         <h4 class="header-title mb-0">Products</h4>
                                     </div>
                                     <div class="d-flex justify-content-between pb-2">
-                                        <h2 style="font-size:32px;">50</h2>
+                                       <h2 style="font-size:32px;" id="product-count"></h2>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@
                                         <h4 class="header-title mb-0">Total Transaction Made</h4>
                                       </div>
                                     <div class="d-flex justify-content-between pb-2">
-                                        <h2 style="font-size:32px;">50</h2>
+                                        <h2 style="font-size:32px;" id="order-count"></span></h2>
                                     </div>
                                 </div>    
                             </div>
@@ -197,36 +197,26 @@
                                         <option value="0">01 July 2018</option>
                                     </select> -->
                                 </div>
-                                <div class="trad-history mt-4">
+                                    <div class="trad-history mt-4">
                                               <div class="table-responsive">
-                                                <table class="dbkit-table">
+                                                <table class="dbkit-table" id="orders-table">
+                                                  <thead>
                                                     <tr class="heading-td">
                                                         <td>Customer Name</td>
                                                         <td>Transaction Date</td>
                                                         <td>Transaction Status</td>
                                                      </tr>
-                                                    <tr>
-                                                        <td>John Armand Adolfo</td>
-                                                        <td>8/27/2021</td>
-                                                        <td><span class="status-p bg-danger">Pending</span></td>
-                                                    </tr>
-                                                        <tr>
-                                                        <td>John Armand Adolfo</td>
-                                                        <td>8/23/2021</td>
-                                                        <td><span class="status-p bg-danger">Pending</span></td>
-                                                    </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        
+                                                    </tbody>
+
+                                                   
+                                                     
                                                 
-                                                        <tr>
-                                                        <td>John Armand Adolfo</td>
-                                                        <td>8/23/2021</td>
-                                                        <td><span class="status-p bg-success">Completed</span></td>
-                                                    </tr>
+                                                   
                                                 
-                                                         <tr>
-                                                        <td>John Armand Adolfo</td>
-                                                        <td>8/23/2021</td>
-                                                        <td><span class="status-p bg-success">Completed</span></td>
-                                                    </tr>
                                                 
                                                 </table>
                                             </div>
@@ -278,6 +268,8 @@
         const db = firebase.firestore();
     </script>
 
+     <script src="assets/firebase-js/dashboard-script.js"></script>
+
     <script>
         function accessDenied() {
             location.href = "access-denied.html";
@@ -291,6 +283,36 @@
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 var uid = user.uid;
+
+                console.log(uid);
+
+         // code for dashboard
+                       var orderQuery = db.collection("OrderList");
+         // use this query for get Customer and Businessowner & all verified
+         var finalQuery = orderQuery.where("StoreOwner_ID", "==" ,uid);
+
+         finalQuery.get().then(function(orderSize) {      
+            var order_size = orderSize.size;
+
+            console.log(order_size);
+
+
+             $('#order-count').html(order_size); 
+         });
+
+        var productQuery = db.collection("ProductList");
+         // use this query for get Customer and Businessowner & all verified
+         var finalQuery2 = productQuery.where("Store_Owner_ID", "==" ,uid);
+
+         finalQuery2.get().then(function(productSize) {      
+            var product_size = productSize.size;
+
+            console.log(product_size);
+
+             $('#product-count').html(product_size); 
+         });
+
+
                 var user = user;
            
                 $('#display-name').html(user.displayName);
@@ -313,6 +335,7 @@
           });
         }
     </script>
+
 
 </body>
 

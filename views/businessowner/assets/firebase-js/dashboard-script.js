@@ -9,11 +9,11 @@ $( document ).ready(function() {
                 var storeOwnerID = uid;
 
                         
-let storesRef = db.collection('StoreList');
+let ordersRef = db.collection('OrderList');
 let deleteIDs = [];
 
 // REAL TIME LISTENER
-storesRef.onSnapshot(snapshot => {
+ordersRef.onSnapshot(snapshot => {
 	let changes = snapshot.docChanges();
 	changes.forEach(change => {
 		if (change.type == 'added') {
@@ -28,7 +28,7 @@ storesRef.onSnapshot(snapshot => {
 });
 
 // GET TOTAL SIZE
-storesRef.onSnapshot(snapshot => {
+ordersRef.onSnapshot(snapshot => {
 	let size = snapshot.size;
 	$('.count').text(size);
 	if (size == 0) {
@@ -39,20 +39,20 @@ storesRef.onSnapshot(snapshot => {
 });
 
 
- const displayStores = async (doc) => {
-    console.log('displayStores');
+ const displayOrders = async (doc) => {
+    console.log('displayOrders');
 
-    let stores = storesRef;
+    let orders = ordersRef;
     // .startAfter(doc || 0).limit(10000)
 
 
-    let storesOwnerQuery = stores.where("StoreOwner_ID", "==", storeOwnerID);
+    let ordersOwnerQuery = orders.where("StoreOwner_ID", "==", storeOwnerID);
     
-    const data = await storesOwnerQuery.get();
+    const data = await ordersOwnerQuery.get();
 
     data.docs.forEach(doc => {
-        const stores = doc.data();
-        var store_status = stores.StoreStatus;
+        const orders = doc.data();
+        var orders_status = orders.Status;
      //    let item =
      //         `<tr data-id="${doc.id}">
      //         		<td class="stores-name">${stores.StoreName}</td>
@@ -79,33 +79,28 @@ storesRef.onSnapshot(snapshot => {
      //        </tr>`;
 
      		  // display user status
-		        if(store_status == 'Verified') {
-		        	var display = '<span class="status-p bg-success">Verified</span>';
-		        } else if(store_status == 'Not-Verified') {
-		        	var display = '<span class="status-p bg-danger">Not Verified</span>';
+		        if(orders_status == 'onProcess') {
+		        	var display = '<span class="status-p bg-info">On Process</span>';
+		        } else if(orders_status == 'Pending') {
+		        	var display = '<span class="status-p bg-danger">Pending</span>';
+		        } else if(orders_status == 'Received') {
+		        	var display = '<span class="status-p bg-success">Received</span>';
 		        }
+
+		        // default values lang sa ron;
+		        var ordersCustomerName = "Test test";
 
              let item =
              `<tr data-id="${doc.id}">
-                    <td class="stores-image"><img src="${stores.StoreImage}"> ${stores.StoreImage}</td>
-             		<td class="stores-name">${stores.StoreName}</td>
-                    <td class="stores-address">${stores.StoreLocation}</td>
-                    <td class="stores-sitio">${stores.StoreSitio}</td>
-                    <td class="stores-phone">${stores.StoreContactNumber}</td>
-                    <td class="stores-status">${display}</td>
-            		<td>
-						<a href="#editStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-stores btn btn-primary btn-sm">
-							EDIT 
-						</a>
-					</td>
-					<td>
-						<a href="#deleteStoresModal" data-toggle="modal" id="${doc.id}" class="delete js-delete-stores btn btn-danger btn-sm">
-							DELETE 
-						</a>
-					</td>
+                    <td class="orders-name">${ordersCustomerName}</td>
+                    <td class="orders-address">${orders.TransactionDate}</td>
+                    <td class="orders-sitio">${display}</td>
             </tr>`;
 
-        $('#stores-table').append(item);
+        $('#orders-table').append(item);
+
+        console.log(item);
+
     });
 
     // UPDATE LATEST DOC
@@ -122,11 +117,11 @@ $(document).ready(function () {
 	var getStoresOwnerID = storeOwnerID;
 
 	// LOAD INITIAL DATA
-	displayStores();
+	displayOrders();
 
 	// LOAD MORE
 	$(document).on('click', '.js-loadmore', function () {
-		displayStores(latestDoc);
+		displayOrders(latestDoc);
 	});
 
 	// ADD STORES

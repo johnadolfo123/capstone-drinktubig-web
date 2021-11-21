@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>DrinkTubig: Mobile Based Water Refilling Stations Ordering and Delivery System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
+    <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon/favicon.ico">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/themify-icons.css">
@@ -198,37 +198,26 @@
                                 </div>
                                 <div class="trad-history mt-4">
                                             <div class="table-responsive">
-                                                <table class="dbkit-table">
+                                                <table class="dbkit-table" id="accounts-table">
+                                                  <thead>
                                                     <tr class="heading-td">
                                                         <td>User Fullname</td>
                                                         <td>User Role</td>
                                                         <td>Account Status</td>
-                                                        <td>Created At</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Ray Vincent Laborte</td>
-                                                        <td>Business Owner</td>
-                                                        <td><span class="status-p bg-danger">Not Verified</span></td>
-                                                        <td>8/23/2021</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Ray Vincent Laborte</td>
-                                                        <td>Business Owner</td>
-                                                        <td><span class="status-p bg-danger">Not Verified</span></td>
-                                                        <td>8/23/2021</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Ray Vincent Laborte</td>
-                                                        <td>Business Owner</td>
-                                                        <td><span class="status-p bg-success">Verified</span></td>
-                                                        <td>8/23/2021</td>
-                                                    </tr>
-                                                     <tr>
-                                                        <td>Ray Vincent Laborte</td>
-                                                        <td>Business Owner</td>
-                                                        <td><span class="status-p bg-success">Verified</span></td>
-                                                        <td>8/23/2021</td>
-                                                    </tr>
+                                                        <td>Create At</td>
+                                                     </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        
+                                                    </tbody>
+
+                                                   
+                                                     
+                                                
+                                                   
+                                                
+                                                
                                                 </table>
                                             </div>
                                         </div>
@@ -284,6 +273,8 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
     </script>
+
+     <script src="assets/firebase-js/dashboard-script.js"></script>
 
     <script>
         function signOut() {
