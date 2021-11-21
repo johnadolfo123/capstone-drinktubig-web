@@ -87,11 +87,11 @@ storesRef.onSnapshot(snapshot => {
 
              let item =
              `<tr data-id="${doc.id}">
+                    <td class="stores-image"><img src="${stores.StoreImage}"> ${stores.StoreImage}</td>
              		<td class="stores-name">${stores.StoreName}</td>
                     <td class="stores-address">${stores.StoreLocation}</td>
                     <td class="stores-sitio">${stores.StoreSitio}</td>
                     <td class="stores-phone">${stores.StoreContactNumber}</td>
-                    <td class="stores-opentime">${stores.StoreOpen}</td>
                     <td class="stores-status">${display}</td>
             		<td>
 						<a href="#editStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-stores btn btn-primary btn-sm">
@@ -132,25 +132,57 @@ $(document).ready(function () {
 	// ADD STORES
 	$("#add-stores-form").submit(function (event) {
 		event.preventDefault();
+
 		let storesName = $('#stores-name').val();
 		let storesAddress = $('#stores-address').val();
 		let storesSitio = $('#stores-sitio').val();
 		let storesPhone =  $('#stores-phone').val();
 		let storesOpen = '9:00AM';
+		let fileUpload = $('#stores-image').val();
+		let testFileUpload = $('#displayAddImage1').val();
+		let testFile = $('#displayAddImage2').val();
+
+
+
 		//let trimStoreName= storesName.trim(storesName);
 
-		var trimStoreName = storesName.replace(/\s/g, ''); 
-		console.log(trimStoreName);
-		let storesID = trimStoreName + "-" + storesSitio; 
+		// var trimStoreName = storesName.replace(/\s/g, ''); 
+		// console.log(trimStoreName);
+		// let storesID = trimStoreName + "-" + storesSitio; 
+
+		let storageRef = storage.ref('BusinessOwner/StoreImages/' + testFileUpload);
+
+		console.log(storageRef);
+
+		console.log(testFileUpload);
+
+		console.log(testFile);
+
+		let test = "test";
+
+		let uploadTask = storageRef.put(testFile);
+
+		console.log(uploadTask);
 
 		// add default store lat and long (tempo)
-		let storeLatitude = 0.1;
-		let storeLongtitude = 0.1;
+		let storeLatitude = "0.1";
+		let storeLongtitude = "0.1";
 
 		// default store status
 		let storeStatus = "Not-Verified";
 
-		db.collection('StoreList').doc(storesID).set({
+		uploadTask.on('state_changed', function(snapshot) {
+			 var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+       		 document.getElementById("UpProgress").innerHTML = 'Upload' + progress + '%';
+    }, function(err) {
+        alert('Message not sent');
+    }, function() {
+        uploadTask.snapshot.ref.getDownloadURL().then(function(url) {
+            ImgURL = url;
+
+
+		db.collection('StoreList').add({
+			StoreImage: ImgURL,
 			StoreOwner_ID: getStoresOwnerID,
 			StoreName: storesName,
 			StoreLocation: storesAddress,
@@ -160,7 +192,7 @@ $(document).ready(function () {
 			StoreLong: storeLongtitude,
 			StoreStatus: storeStatus
 			// createdAt : firebase.firestore.FieldValue.serverTimestamp()
-			}).then(function() {
+			}).then(function(doc) {
 				$("#addStoresModal").modal('hide');
 				// let newStores =
 				//  `<tr data-id="${storesID}">
@@ -187,20 +219,19 @@ $(document).ready(function () {
     //         </tr>`;
 
             let newStores =
-				 `<tr data-id="${storesID}">
+				 `<tr data-id="${doc.id}">
 				 	<td class="stores-name">${storesName}</td>
                     <td class="stores-address">${storesAddress}</td>
                     <td class="stores-sitio">${storesSitio}</td>
                     <td class="stores-phone">${storesPhone}</td>
-                    <td class="stores-phone">${storesOpen}</td>
                     <td class="stores-status"><span class="status-p bg-danger">Not Verified</span></td>
             		<td>
-						<a href="#editStoresModal" data-toggle="modal" id="${storesID}" class="edit js-edit-stores btn btn-primary btn-sm">
+						<a href="#editStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-stores btn btn-primary btn-sm">
 							EDIT 
 						</a>
 					</td>
 					<td>
-						<a href="#deleteStoresModal" data-toggle="modal" id="${storesID}" class="delete js-delete-stores btn btn-danger btn-sm">
+						<a href="#deleteStoresModal" data-toggle="modal" id="${doc.id}" class="delete js-delete-stores btn btn-danger btn-sm">
 							DELETE 
 						</a>
 					</td>
@@ -211,7 +242,9 @@ $(document).ready(function () {
 			.catch(function (error) {
 				console.error("Error writing document: ", error);
 			});
-	});
+	 });
+  });
+});
 
 	// UPDATE STORES
 	$(document).on('click', '.js-edit-stores', function (e) {

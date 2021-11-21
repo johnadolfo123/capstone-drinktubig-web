@@ -162,11 +162,12 @@
                                         <table id="stores-table" class="table table-hover progress-table text-left">
                                             <thead class="text-uppercase">
                                                 <tr>
+                                                    <th scope="col">Store Image</th>
                                                     <th scope="col">Store Name</th>
                                                     <th scope="col">Store Address</th>
                                                     <th scope="col">Store Sitio</th>
                                                     <th scope="col">Store Phone Number</th>
-                                                    <th scope="col">Store Open Time</th>
+                                                    <!-- <th scope="col">Store Open Time</th> -->
                                                     <th scope="col">Store Status</th>
                                                     <th scope="col"></th>
                                                 </tr>
@@ -200,6 +201,20 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
+
+                         <input type="hidden" id="displayAddImage1">
+                         <input type="hidden" id="displayAddImage2">
+
+                          <div class="form-group">
+                            <label>Store Image</label>
+                             <div>
+                                 <img class="displayAddImage img-thumbnail" aria-required="true" style="width: 100%; height: 200px; border:none;">
+                             </div>
+                             <!-- <button id="selectImageAdd" class="btn btn-success btn-sm mt-2">Add Image</button> -->
+                             <input type="file" id="stores-image" class="text-center center-block file-upload mt-2 mb-2" required>
+                              <label id="UpProgress"></label>
+                        </div>
+
                          <div class="form-group">
                             <label>Sitio</label>
                             <select class="form-control" id="stores-sitio" required>
@@ -216,29 +231,14 @@
                             <label>Name</label>
                             <input type="text" id="stores-name" class="form-control" required>
                         </div>
+
                         <div class="form-group">
                             <label>Store Address</label>
                            <div class="input-group mb-3">
                               <input type="text" class="form-control" id="stores-address" required>
-                              <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" onclick="getAddress();"><i class="fa fa-search"></i></button>
-                              </div>
                             </div>
                         </div>
 
-                      
-                        <div class="form-group">
-                            <div class="row">
-                            <div class="col-md-6">
-                             <label>Store Latitude</label>
-                             <input class="form-control" type="text" id="stores-lat" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Store Longtitude</label>
-                              <input class="form-control" type="text" id="stores-lng" disabled>
-                            </div>
-                         </div>
-                        </div>
                      
                         <div class="form-group">
                             <label>Phone</label>
@@ -256,15 +256,25 @@
     </div>
 
     <!-- Edit Modal HTML -->
-    <div id="editStoresModal" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div id="editStoresModal" class="modal fade" data-backdrop="static" data-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="edit-stores-form">
                     <div class="modal-header">
-                        <h4 class="modal-title">Edit Stores</h4>
+                        <h4 class="modal-title" id="staticBackdropLabel">Edit Stores</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>Business Permit</label>
+                             <div class="text-center bg-light">
+                                 <img id="eventImg" aria-required="true">
+                             </div>
+                             <button id="select" aria-required="true">Select Image</button>
+                             <label id="UpProgress"></label>
+                        </div>
+
                         <div class="form-group">
                             <label>Sitio</label>
                             <select class="form-control" id="stores-sitio" required>
@@ -357,6 +367,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-storage.js"></script>
 
 
      <script>
@@ -371,6 +382,7 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        const storage = firebase.storage();
     </script>
 
     <script src="assets/firebase-js/stores-script.js"></script>
@@ -434,6 +446,50 @@
           });
         }
     </script>
+
+   <script>
+       $(document).ready(function() {
+
+    var readURL = function(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('.displayAddImage').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+         // pass the name of the selected file;
+         $('#displayAddImage1').val(input.files[0].name);
+         $('#displayAddImage2').val(input.files[0]);
+    }
+ 
+    $(".file-upload").change('change', function(){
+       readURL(this);
+    });
+});
+   </script>
+
+
+       <script>
+            // code for edit image
+            document.getElementById("select").onclick = function(e) {
+
+            var input = document.createElement('input');
+            input.type = 'file';
+
+            input.onchange = e => {
+                files = e.target.files;
+                reader = new FileReader();
+                reader.onload = function() {
+                    document.getElementById("eventImg").src = reader.result;
+                }
+                reader.readAsDataURL(files[0]);
+            }
+            input.click();
+
+        }
+    </script>
+
 
 </body>
 
