@@ -88,11 +88,10 @@ ordersRef.onSnapshot(snapshot => {
 		        }
 
 		        // default values lang sa ron;
-		        var ordersCustomerName = "Test test";
-
+		    
              let item =
              `<tr data-id="${doc.id}">
-                    <td class="orders-name">${ordersCustomerName}</td>
+                    <td class="orders-name">${orders.CustomerName}</td>
                     <td class="orders-address">${orders.TransactionDate}</td>
                     <td class="orders-sitio">${display}</td>
             </tr>`;
