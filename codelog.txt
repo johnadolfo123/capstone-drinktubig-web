@@ -89,3 +89,23 @@ Laborte
 please add modal for the admin stores view button add modal for the product page
 
 
+
+
+
+
+
+admin 
+
+profile
+fullname 
+
+
+business
+
+profile 
+fullname
+contactnumber
+
+
+mapbox change the 
+

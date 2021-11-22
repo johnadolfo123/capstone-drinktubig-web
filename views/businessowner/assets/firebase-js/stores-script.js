@@ -78,6 +78,11 @@ storesRef.onSnapshot(snapshot => {
 					// </td>
      //        </tr>`;
 
+     		  // display 
+     		  var image_default = 'https://firebasestorage.googleapis.com/v0/b/drinktubig-bcaf5.appspot.com/o/1.jpg?alt=media&token=8b43dede-991f-41c1-ad08-f8445b7823e3';
+
+
+
      		  // display user status
 		        if(store_status == 'Verified') {
 		        	var display = '<span class="status-p bg-success">Verified</span>';
@@ -87,7 +92,7 @@ storesRef.onSnapshot(snapshot => {
 
              let item =
              `<tr data-id="${doc.id}">
-                    <td class="stores-image"><img src="${stores.StoreImage}"> ${stores.StoreImage}</td>
+                    <td class="stores-image"><img style="width:100%;height:200px;" src="${image_default}"></td>
              		<td class="stores-name">${stores.StoreName}</td>
                     <td class="stores-address">${stores.StoreLocation}</td>
                     <td class="stores-sitio">${stores.StoreSitio}</td>
@@ -163,11 +168,15 @@ $(document).ready(function () {
 		console.log(uploadTask);
 
 		// add default store lat and long (tempo)
-		let storeLatitude = "0.1";
-		let storeLongtitude = "0.1";
+		let storeLatitude = "10.385236747055636";
+		let storeLongtitude = "123.9213113743014";
 
 		// default store status
 		let storeStatus = "Not-Verified";
+
+		// set as default;
+     	var let_image_default = 'https://firebasestorage.googleapis.com/v0/b/drinktubig-bcaf5.appspot.com/o/1.jpg?alt=media&token=8b43dede-991f-41c1-ad08-f8445b7823e3';
+
 
 		uploadTask.on('state_changed', function(snapshot) {
 			 var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -178,9 +187,8 @@ $(document).ready(function () {
         uploadTask.snapshot.ref.getDownloadURL().then(function(url) {
             ImgURL = url;
 
-
 		db.collection('StoreList').add({
-			StoreImage: ImgURL,
+			StoreImage: let_image_default,
 			StoreOwner_ID: getStoresOwnerID,
 			StoreName: storesName,
 			StoreLocation: storesAddress,
@@ -218,7 +226,7 @@ $(document).ready(function () {
 
             let newStores =
 				 `<tr data-id="${doc.id}">
-				    <td class="stores-image">${ImgURL}</td>
+				    <td class="stores-image">${let_image_default}</td>
 				 	<td class="stores-name">${storesName}</td>
                     <td class="stores-address">${storesAddress}</td>
                     <td class="stores-sitio">${storesSitio}</td>
