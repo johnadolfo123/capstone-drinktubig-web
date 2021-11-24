@@ -84,7 +84,7 @@ productsRef.onSnapshot(snapshot => {
      		 // display user status
 		        if(product_status == 'Available') {
 		        	var display = '<span class="status-p bg-success">Available</span>';
-		        } else if(product_status == 'Not-Available') {
+		        } else if(product_status == 'Not Available') {
 		        	var display = '<span class="status-p bg-danger">Not Available</span>';
 		        }
 
@@ -94,7 +94,7 @@ productsRef.onSnapshot(snapshot => {
              		<td class="products-name">${products.Product_Name}</td>
                     <td class="products-price">${products.Product_Price}</td>
                     <td class="products-category">${products.Product_Category}</td>
-                    <td class="products-status">${$display}</td>
+                    <td class="products-status">${display}</td>
             		<td class="store-branches">${products.Store_Name}</td>
             		<td>
 						<a href="#editProductsModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-products btn btn-primary btn-sm">
