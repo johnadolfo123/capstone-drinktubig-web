@@ -54,6 +54,7 @@ productsRef.onSnapshot(snapshot => {
 
     data.docs.forEach(doc => {
         const products = doc.data();
+        var product_status = products.Product_Status;
      //    let item =
      //         `<tr data-id="${doc.id}">
      //         		<td class="stores-name">${stores.StoreName}</td>
@@ -79,13 +80,21 @@ productsRef.onSnapshot(snapshot => {
 					// </td>
      //        </tr>`;
 
+
+     		 // display user status
+		        if(product_status == 'Available') {
+		        	var display = '<span class="status-p bg-success">Available</span>';
+		        } else if(product_status == 'Not-Available') {
+		        	var display = '<span class="status-p bg-danger">Not Available</span>';
+		        }
+
      		
              let item =
              `<tr data-id="${doc.id}">
              		<td class="products-name">${products.Product_Name}</td>
                     <td class="products-price">${products.Product_Price}</td>
                     <td class="products-category">${products.Product_Category}</td>
-                    <td class="products-status"><span class="status-p bg-danger">Not Available</span></td>
+                    <td class="products-status">${$display}</td>
             		<td class="store-branches">${products.Store_Name}</td>
             		<td>
 						<a href="#editProductsModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-products btn btn-primary btn-sm">
