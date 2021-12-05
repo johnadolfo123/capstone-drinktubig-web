@@ -83,12 +83,19 @@ productsRef.onSnapshot(snapshot => {
 
      		 // display user status
 		        if(product_status == 'Available') {
-		        	var display = '<span class="status-p bg-success">Available</span>';
+		        	var display = '<span class="status-p bg-success text-center">Available</span>';
+		        	//var display_accept = '';
+		        	var display_accept = `<a href="#notAcceptProductModal" data-toggle="modal" id="${doc.id}" class="edit js-not-accept-products btn btn-danger btn-sm">
+							Set To Not Available 
+						</a>`;
 		        } else if(product_status == 'Not Available') {
-		        	var display = '<span class="status-p bg-danger">Not Available</span>';
+		        	var display = '<span class="status-p bg-danger text-center">Not Available</span>';
+		        	var display_accept = `<a href="#acceptProductModal" data-toggle="modal" id="${doc.id}" class="edit js-accept-products btn btn-success btn-sm">
+							Set To Available 
+						</a>`;
 		        }
 
-     		
+	
              let item =
              `<tr data-id="${doc.id}">
              		<td class="products-name">${products.Product_Name}</td>
@@ -97,7 +104,10 @@ productsRef.onSnapshot(snapshot => {
                     <td class="products-status">${display}</td>
             		<td class="store-branches">${products.Store_Name}</td>
             		<td>
-						<a href="#editProductsModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-products btn btn-primary btn-sm">
+            		${display_accept}
+            		</td>
+            		<td>
+            			<a href="#editProductsModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-products btn btn-primary btn-sm">
 							EDIT 
 						</a>
 					</td>
@@ -316,6 +326,104 @@ $(document).ready(function () {
 			// 		});
 			// });
 			$("#deleteProductsModal").modal('hide');
+		}
+	});
+	// DELETE END
+
+	// Accept Products
+	$(document).on('click', '.js-accept-products', function (e) {
+		e.preventDefault();
+		let id = $(this).attr('id');
+		console.log(id);
+		$('#accept-products-form').attr('available-id', id);
+		$('#acceptProductModal').modal('show');
+	});
+
+	$("#accept-products-form").submit(function (event) {
+		event.preventDefault();
+		let id = $(this).attr('available-id');
+		let setAvailable = "Available";
+		console.log(id);
+			if (id != undefined) {
+			db.collection('ProductList').doc(id).update({
+			Product_Status: setAvailable
+			// name: employeeName,
+			// email: employeeEmail,
+			// address: employeeAddress,
+			// phone: employeePhone,
+			// updatedAt : firebase.firestore.FieldValue.serverTimestamp()
+			})
+			 .then(function () {
+			 		 console.log('Success');
+					 location.href = "view_products.html";
+					 //$("#acceptStoresModal").modal('hide');
+				})
+				.catch(function (error) {
+					console.error("Error deleting document: ", error);
+				});
+		} else {
+			// let checkbox = $('table tbody input:checked');
+			// checkbox.each(function () {
+			// 	db.collection('employees').doc(this.value).delete()
+			// 		.then(function () {
+			// 			console.log("Document successfully delete!");
+			// 			displayEmployees();
+			// 		})
+			// 		.catch(function (error) {
+			// 			console.error("Error deleting document: ", error);
+			// 		});
+			// });
+			console.log('none');
+			$("#acceptProductModal").modal('hide');
+		}
+	});
+	// DELETE END
+
+	// Not Accept Products
+	$(document).on('click', '.js-not-accept-products', function (e) {
+		e.preventDefault();
+		let id = $(this).attr('id');
+		console.log(id);
+		$('#not-accept-products-form').attr('not-available-id', id);
+		$('#notAcceptProductModal').modal('show');
+	});
+
+	$("#not-accept-products-form").submit(function (event) {
+		event.preventDefault();
+		let id = $(this).attr('not-available-id');
+		let setNotAvailable = "Not Available";
+		console.log(id);
+			if (id != undefined) {
+			db.collection('ProductList').doc(id).update({
+			Product_Status: setNotAvailable
+			// name: employeeName,
+			// email: employeeEmail,
+			// address: employeeAddress,
+			// phone: employeePhone,
+			// updatedAt : firebase.firestore.FieldValue.serverTimestamp()
+			})
+			 .then(function () {
+			 		 console.log('Success');
+					 location.href = "view_products.html";
+					 //$("#acceptStoresModal").modal('hide');
+				})
+				.catch(function (error) {
+					console.error("Error deleting document: ", error);
+				});
+		} else {
+			// let checkbox = $('table tbody input:checked');
+			// checkbox.each(function () {
+			// 	db.collection('employees').doc(this.value).delete()
+			// 		.then(function () {
+			// 			console.log("Document successfully delete!");
+			// 			displayEmployees();
+			// 		})
+			// 		.catch(function (error) {
+			// 			console.error("Error deleting document: ", error);
+			// 		});
+			// });
+			console.log('none');
+			$("#notAcceptProductModal").modal('hide');
 		}
 	});
 	// DELETE END
