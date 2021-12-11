@@ -157,15 +157,16 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title" style="text-transform: none;">List of Informations For This Store</h4>
+                                <a href="view_stores.html" class="btn btn-danger btn-sm">Return</a>
                                 <div class="single-table">
                                     <div class="table-responsive">
-                                        <table id="products-table" class="table table-hover progress-table text-left">
+                                        <table id="show-products-table" class="table table-hover progress-table text-left">
                                             <thead class="text-uppercase">
                                                 <tr>
                                                     <th scope="col">Products Name</th>
                                                     <th scope="col">Products Price</th>
                                                     <th scope="col">Products Category</th>
-                                                    <th scope="col"></th>
+                                                    <th scope="col">Products Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -227,8 +228,8 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
     </script>
-    <script src="assets/firebase-js/products-script.js"></script>
 
+   
     <script>
         function accessDenied() {
             location.href = "access-denied.html";
@@ -265,7 +266,8 @@
         }
     </script>
 
-        <script>
+  
+<script>
         
         var getUrlParameter = function getUrlParameter(sParam) {
         var sPageURL = window.location.search.substring(1),
@@ -285,9 +287,81 @@
     
     var show_id = getUrlParameter('id');
 
-    console.log(show_id);
+    let filterProductsRef = db.collection('ProductList');
+    let deleteIDs = [];
 
-    </script>
+    // REAL TIME LISTENER
+        filterProductsRef.onSnapshot(snapshot => {
+            let changes = snapshot.docChanges();
+            changes.forEach(change => {
+                if (change.type == 'added') {
+                    console.log('added');
+                } else if (change.type == 'modified') {
+                    console.log('modified');
+                } else if (change.type == 'removed') {
+                    $('tr[data-id=' + change.doc.id + ']').remove();
+                    console.log('removed');
+                }
+            });
+        });
+
+
+    const displayFilterProducts = async (doc) => {
+
+    let filterProducts = filterProductsRef;
+
+    let filterProductsStoreID = filterProducts.where("Store_ID", "==", show_id);
+
+
+    // .startAfter(doc || 0).limit(10000)
+    const data = await filterProductsStoreID.get();
+   
+    data.docs.forEach(doc => {
+        const filterStore = doc.data();
+        var product_status = filterStore.Product_Status;
+
+        // display user status
+                if(product_status == 'Available') {
+                    var display = '<span class="status-p bg-success text-center">Available</span>';
+                  
+                } else if(product_status == 'Not Available') {
+                    var display = '<span class="status-p bg-danger text-center">Not Available</span>';
+                 }
+
+        // display verification status
+
+        let item =
+            `<tr data-id="${doc.id}">  
+                    <td class="product_name">${filterStore.Product_Name}</td>
+                    <td class="product_price">${filterStore.Product_Price}</td>
+                    <td class="product_category">${filterStore.Product_Category}</td>
+                    <td>${display}</
+            </tr>`;
+
+     
+
+         $('#show-products-table').append(item);
+     
+    });
+
+    // UPDATE LATEST DOC
+    latestDoc = data.docs[data.docs.length - 1];
+
+}
+
+$(document).ready(function () {
+    let latestDoc = null;
+
+    // LOAD INITIAL DATA
+    displayFilterProducts();
+
+    // LOAD MORE
+    $(document).on('click', '.js-loadmore', function () {
+        displayFilterProducts(latestDoc);
+    });
+  });
+
+</script>
 
 
 </body>

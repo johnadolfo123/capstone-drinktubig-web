@@ -179,7 +179,6 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title" style="text-transform: none;">List of Stores</h4>
-                                <a href="view-stores.html" class="btn btn-danger btn-sm">Return</a>
                              </div>
                     <div class="card-body">
                        <div class="col-md-6">
@@ -203,7 +202,7 @@
                                             <button type="button" id="submit" class="btn btn-primary btn-block">Save Changes</button>
                                         </div>
                                             <div class="col">
-                                                <a href="view-stores.html" class="btn btn-default btn-block text-dark">Cancel</a>                                           
+                                                <a href="view-stores.html" class="btn btn-danger btn-block text-white">Cancel</a>                                           
                                             </div>
                                         </div>
 
@@ -304,10 +303,13 @@
     <script>
 
 
-      var locate_lat = "10.385236747055636";
-      var locate_lng = "123.9213113743014";
-    
-      var mymap = L.map('mapid').setView([locate_lat, locate_lng], 16);
+      //var locate_lat = "10.385236747055636";
+      //var locate_lng = "123.9213113743014";
+
+      var locate_lat = "10.386113605856064";
+      var locate_lng = "123.91825407798025";
+
+      var mymap = L.map('mapid').setView([locate_lat, locate_lng], 17);
     
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -319,8 +321,9 @@
       accessToken:'pk.eyJ1Ijoiam9obmFkb2xmbzEyMyIsImEiOiJja3Rndmg4dTAwbTZ1MnZxanNnbWFlNmYyIn0.S5Yvs93s5djIr8y5spdYWA'
   }).addTo(mymap);
 
-      var redIcon = new L.Icon({
-           iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
+      var drinkTubigIcon = new L.Icon({
+           // iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
+           iconUrl: 'assets/images/mapbox_drink_tubig.png',
            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
            iconSize: [25, 41],
            iconAnchor: [12, 41],
@@ -340,9 +343,9 @@
                 var get_store_lng = get_stores_data.StoreLong;
 
                 
-                var theMarker = L.marker([get_store_lat, get_store_lng], {icon: redIcon}).addTo(mymap);
+                var theMarker = L.marker([get_store_lat, get_store_lng], {icon: drinkTubigIcon}).addTo(mymap);
 
-                  mymap.on('click', function(e) {
+      mymap.on('click', function(e) {
       var coord = e.latlng;
       var lat = coord.lat;
       var lng = coord.lng;
@@ -395,39 +398,7 @@
                 .catch(function (error) {
                     console.error("Error deleting document: ", error);
                 });
-
-          // // to create the new account
-          //   firebase.auth().createUserWithEmailAndPassword(email, password)
-          //  .then((userCredential) => {
-
-          //   var user  = userCredential.user;
-          //   var em = email;
-          //   var fname = firstname;
-          //   var lname = lastname;
-
-          //   let fullname = fname + " " + lname; 
-          //   var set_return = 1;
-          //   return db.collection('Users').doc(user.uid).set({
-          //       fullname: fullname,
-          //       email: email,
-          //       address: '',
-          //       phonenumber: '',
-          //       profile: '',
-          //       usertype: 'Businessowner',
-          //       status: 'Verified'
-          //   }).then(() => {
-          //       location.href = 'index.html'
-          //   });
-          // })
-          //  .catch((error) => {
-          //    var errorCode = error.code;
-          //    var errorMessage = error.message;
-          //     console.log("Error Data");
-          //  });
-          })
-</script>
-
-
-</body>
-
-</html>
+              })
+        </script>
+      </body>
+   </html>

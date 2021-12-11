@@ -60,7 +60,9 @@ storesRef.onSnapshot(snapshot => {
                     <td class="stores-status">${display}</td>
             		<td>
             			${display_accept}
-						<a href="view_stores_product.html?id=${doc.id}" id="${doc.id}" class="view btn btn-info btn-sm js-view-stores">VIEW</a>
+            		</td>
+            		<td>
+            			<a href="view_stores_product.html?id=${doc.id}" id="${doc.id}" class="view btn btn-info btn-sm js-view-stores">VIEW</a>
 						</a>
 					</td>
             </tr>`;
