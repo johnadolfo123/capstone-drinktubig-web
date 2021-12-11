@@ -39,7 +39,7 @@
 <style>
     #mapid { 
         height:600px;
-        width:600px; 
+        width:900px; 
     }
 </style>
 
@@ -189,27 +189,21 @@
                      
                             <div class="col-md-12">
                                 <div class="container">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for=address>Address</label>
-                                            <input type="text" class="form-control" id="address">
-                                            <button type="button" onclick="getAddress();" id="address">Search</button>
-                                        </div>
-
-
+                                    <form id="updateStoreLocationForm">
+                                     
                                         <div id="mapid" style="margin-bottom: 0px !important"></div>
            
-                                
-                                       <input type="text" name="lat" id="lat">
-                                       <input type="text" name="lng" id="lng">
+                                       <input type="hidden" name="storeID" id="storeID">
+                                       <input type="hidden" name="lat" id="lat">
+                                       <input type="hidden" name="lng" id="lng">
 
                                       
                                         <div class="row mt-5">
                                             <div class="col">
-                                            <button type="button" class="btn btn-primary btn-block">Save Changes</button>
+                                            <button type="button" id="submit" class="btn btn-primary btn-block">Save Changes</button>
                                         </div>
                                             <div class="col">
-                                                <a href="dashboard.html" class="btn btn-default btn-block text-dark">Cancel</a>                                           
+                                                <a href="view-stores.html" class="btn btn-default btn-block text-dark">Cancel</a>                                           
                                             </div>
                                         </div>
 
@@ -255,6 +249,7 @@
     
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
 
     <script src="assets/other/leaflet/dist/leaflet.js"></script>
 
@@ -265,65 +260,172 @@
 
     <script src="assets/other/leaflet-search/dist/leaflet-search.min.js"></script>
 
+      <script>
+        var firebaseConfig = {
+          apiKey: "AIzaSyCoOjba1Ej7CJzg_sNXdfMUhQwqbV5Cruo",
+          authDomain: "drinktubig-bcaf5.firebaseapp.com",
+          projectId: "drinktubig-bcaf5",
+          storageBucket: "drinktubig-bcaf5.appspot.com",
+          messagingSenderId: "865738659083",
+          appId: "1:865738659083:web:60d90ffd1add62930a3e0e",
+          measurementId: "G-8ETGGW6B5L"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+
+
 <script>
-function getAddress(){
-  var address = document.getElementById('address').value;
-mapboxgl.accessToken = 'pk.eyJ1Ijoiam9obmFkb2xmbzEyMyIsImEiOiJja3Rndmg4dTAwbTZ1MnZxanNnbWFlNmYyIn0.S5Yvs93s5djIr8y5spdYWA';
+        
+        var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
 
-var geocoder = new MapboxGeocoder({
-     accessToken: mapboxgl.accessToken
- });
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
 
-  var client = new MapboxClient(mapboxgl.accessToken);
+        if (sParameterName[0] === sParam) {
+            return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+    return false;
+};
+    
+    var show_id = getUrlParameter('id');
 
-  var test = client.geocodeForward(address, function(err, data, res) {
-           // data is the geocoding result as parsed JSON
-           // res is the http response, including: status, headers and entity properties
-     
-           var coordinates = data.features[0].center;
+    $('#storeID').val(show_id);
 
-           console.log(coordinates);
-           $('#lat').val(coordinates[1]);
-           $('#lng').val(coordinates[0]);
-  });
-}
 </script>
 
-  <!--     <script>
 
-    if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(position => { 
-             lat = position.coords.latitude;
-             lng = position.coords.longitude 
 
-    var mymap = L.map('mapid').setView([lat, lng], 11);
-    var theMarker = {};
+    <script>
+
+
+      var locate_lat = "10.385236747055636";
+      var locate_lng = "123.9213113743014";
+    
+      var mymap = L.map('mapid').setView([locate_lat, locate_lng], 16);
+    
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      maxZoom: 100,
+      maxZoom: 20,
+      minZoom: 12,
       id: 'mapbox/streets-v11',
       tileSize: 512,
       zoomOffset: -1,
       accessToken:'pk.eyJ1Ijoiam9obmFkb2xmbzEyMyIsImEiOiJja3Rndmg4dTAwbTZ1MnZxanNnbWFlNmYyIn0.S5Yvs93s5djIr8y5spdYWA'
   }).addTo(mymap);
 
-    mymap.on('click', function(e){
+      var redIcon = new L.Icon({
+           iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
+           shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+           iconSize: [25, 41],
+           iconAnchor: [12, 41],
+           popupAnchor: [1, -34],
+           shadowSize: [41, 41]
+         });
+
+
+         var docRef = db.collection('StoreList').doc(show_id);
+
+    // check user if admin / businessowner
+            docRef.get().then((doc) => {
+             const get_stores_data = doc.data();
+              if (doc.exists) { 
+                
+                var get_store_lat = get_stores_data.StoreLat;
+                var get_store_lng = get_stores_data.StoreLong;
+
+                
+                var theMarker = L.marker([get_store_lat, get_store_lng], {icon: redIcon}).addTo(mymap);
+
+                  mymap.on('click', function(e) {
       var coord = e.latlng;
       var lat = coord.lat;
       var lng = coord.lng;
       if (theMarker != undefined) {
         mymap.removeLayer(theMarker);
-          };
+    };
 
       //Add a marker to show where you clicked.
        theMarker = L.marker([lat,lng]).addTo(mymap);  
             $('#lat').val(lat);
             $('#lng').val(lng);
+
       });
-  });
-}
+    
+
+
+                } 
+            })
 </script>
- -->
+
+
+<script>
+       const updateStoreLocationForm = document.querySelector('#updateStoreLocationForm');
+        let submitButton = document.getElementById('submit')
+        //Create Event Listener To Allow Form Submission
+        submitButton.addEventListener("click", (e) => {
+          //Prevent Default Form Submission Behavior
+         e.preventDefault();
+
+          //Get Form Values
+          const storeID = updateStoreLocationForm['storeID'].value;
+          const lat = updateStoreLocationForm['lat'].value;
+          const lng = updateStoreLocationForm['lng'].value;
+         
+
+            db.collection('StoreList').doc(storeID).update({
+            StoreLat: lat,
+            StoreLong: lng
+            // name: employeeName,
+            // email: employeeEmail,
+            // address: employeeAddress,
+            // phone: employeePhone,
+            // updatedAt : firebase.firestore.FieldValue.serverTimestamp()
+            })
+             .then(function () {
+                     console.log('Success');
+                     location.href = "view-stores.html";
+                     //$("#acceptStoresModal").modal('hide');
+                })
+                .catch(function (error) {
+                    console.error("Error deleting document: ", error);
+                });
+
+          // // to create the new account
+          //   firebase.auth().createUserWithEmailAndPassword(email, password)
+          //  .then((userCredential) => {
+
+          //   var user  = userCredential.user;
+          //   var em = email;
+          //   var fname = firstname;
+          //   var lname = lastname;
+
+          //   let fullname = fname + " " + lname; 
+          //   var set_return = 1;
+          //   return db.collection('Users').doc(user.uid).set({
+          //       fullname: fullname,
+          //       email: email,
+          //       address: '',
+          //       phonenumber: '',
+          //       profile: '',
+          //       usertype: 'Businessowner',
+          //       status: 'Verified'
+          //   }).then(() => {
+          //       location.href = 'index.html'
+          //   });
+          // })
+          //  .catch((error) => {
+          //    var errorCode = error.code;
+          //    var errorMessage = error.message;
+          //     console.log("Error Data");
+          //  });
+          })
+</script>
 
 
 </body>

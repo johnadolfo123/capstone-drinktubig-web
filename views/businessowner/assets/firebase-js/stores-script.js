@@ -98,6 +98,11 @@ storesRef.onSnapshot(snapshot => {
                     <td class="stores-sitio">${stores.StoreSitio}</td>
                     <td class="stores-phone">${stores.StoreContactNumber}</td>
                     <td class="stores-status">${display}</td>
+                    <td>
+						<a href="view_openstores.html?id=${doc.id}" class="view js-view-stores btn btn-info btn-sm">
+							VIEW 
+						</a>
+					</td>
             		<td>
 						<a href="#editStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-edit-stores btn btn-primary btn-sm">
 							EDIT 
