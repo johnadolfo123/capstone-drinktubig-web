@@ -89,13 +89,13 @@
                                     <i class="fa fa-unlock-alt"></i>
                                     <div></div>
                                 </div>
-                               <!--  <div class="form-gp">
-                                    <label for="exampleInputPassword2">Confirm Password</label>
-                                    <input type="password" id="exampleInputPassword2">
+                                 <!-- <div class="form-gp">
+                                    <label for="exampleConfirmPassword">Confirm Password</label>
+                                    <input type="password" id="confirm_password">  
                                     <i class="fa fa-unlock-alt"></i>
                                     <div></div>
-                                </div>
-                                -->     <div class="submit-btn-area">
+                                </div> -->
+                                    <div class="submit-btn-area">
                                         <button  id="submit" type="submit">Submit <i class="ti-arrow-right"></i></button>
                                     </div>
                                 <div class="form-footer text-center mt-3">
@@ -152,7 +152,7 @@
       const registerForm = document.querySelector('#registerForm');
         let submitButton = document.getElementById('submit')
         //Create Event Listener To Allow Form Submission
-        submitButton.addEventListener("click", (e) => {
+        submitButton.addEventListener("click", (e) => { 
           //Prevent Default Form Submission Behavior
          e.preventDefault();
 
@@ -161,7 +161,6 @@
           const password = registerForm['user_password'].value;
           const firstname = registerForm['user_firstname'].value;
           const lastname = registerForm['user_lastname'].value;
-
 
           // to create the new account
             firebase.auth().createUserWithEmailAndPassword(email, password)
