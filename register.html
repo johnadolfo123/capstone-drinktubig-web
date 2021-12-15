@@ -182,6 +182,7 @@
                 usertype: 'Businessowner',
                 status: 'active'
             }).then(() => {
+                alert('Successfully Added a New Acccount');
                 location.href = 'index.html'
             });
           })
@@ -189,8 +190,9 @@
              var errorCode = error.code;
              var errorMessage = error.message;
               console.log("Error Data");
-           });
+           }); 
         })
         </script>
     </body>
 </html>
+

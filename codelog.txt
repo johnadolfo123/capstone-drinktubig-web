@@ -1,5 +1,15 @@
 code log for capstone drink tubig web
 
+12/15/2021
+administrators:
+
+email: rlaborte_ccs@uspf.edu.ph
+password: qwerty!123
+
+email: jadolfo_ccs@uspf.edu.ph
+password: qwerty!123
+
+
 7/19/2021
 
 Adolfo
