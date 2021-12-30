@@ -1,5 +1,11 @@
 code log for capstone drink tubig web
 
+12/31/2021
+
+Ray 
+- minor changes in registration page (modified)
+
+
 12/15/2021
 administrators:
 
