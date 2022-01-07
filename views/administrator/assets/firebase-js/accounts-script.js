@@ -40,6 +40,7 @@ usersRef.onSnapshot(snapshot => {
     data.docs.forEach(doc => {
         const usersBusinessOwner = doc.data();
         var usertype = usersBusinessOwner.usertype;
+		var userstatus = usersBusinessOwner.status;
 
         // display user status
         if(usertype == 'Businessowner') {
@@ -49,16 +50,33 @@ usersRef.onSnapshot(snapshot => {
         }
 
         // display verification status
+		if(userstatus == "active") {
+			var display_status = '<span class="status-p bg-success">Active</span>';
+		} else if(userstatus == "inactive") {
+			var display_status = '<span class="status-p bg-danger">Inactive</span>';			
+		} else {
+			var display_status = '<span class="status-p bg-success">Active</span>';					
+		}
 
 
         let item =
             `<tr data-id="${doc.id}">
                     <td class="users-name">${usersBusinessOwner.fullname}</td>
                     <td class="users-email">${usersBusinessOwner.email}</td>
-                    <td class="users-phonenumber">${usersBusinessOwner.phoneNumber}</td>
                     <td class="users-role">${display}</td>
-                    <td class="users-status"><span class="status-p bg-danger">Not Verified</span></td>
+                    <td class="users-status">${display_status}</td>
             </tr>`;
+
+
+			// let item =
+        //     `<tr data-id="${doc.id}">
+        //             <td class="users-name">${usersBusinessOwner.fullname}</td>
+        //             <td class="users-email">${usersBusinessOwner.email}</td>
+        //             <td class="users-phonenumber">${usersBusinessOwner.phoneNumber}</td>
+        //             <td class="users-role">${display}</td>
+        //             <td class="users-status"><span class="status-p bg-danger">Not Verified</span></td>
+        //     </tr>`;
+
 
         $('#users-table').append(item);
     });

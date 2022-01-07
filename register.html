@@ -50,7 +50,7 @@
         <div class="container-fluid p-0">
             <div class="row no-gutters">
                 <div class="col-xl-4 offset-xl-8 col-lg-6 offset-lg-6">
-                    <div class="login-box-s2 ptb--50">
+                    <div class="login-box-s2 ptb--100">
                      <!--  <div class="login-box-s2 ptb--100"> -->
                         <form id="registerForm">
                            <img src="assets/images/logo.png" class="dt-logo">
@@ -89,12 +89,12 @@
                                     <i class="fa fa-unlock-alt"></i>
                                     <div></div>
                                 </div>
-                                 <!-- <div class="form-gp">
+                                <div class="form-gp">
                                     <label for="exampleConfirmPassword">Confirm Password</label>
-                                    <input type="password" id="confirm_password">  
+                                    <input type="confirm_password" id="confirm_password">  
                                     <i class="fa fa-unlock-alt"></i>
                                     <div></div>
-                                </div> -->
+                                </div>
                                     <div class="submit-btn-area">
                                         <button  id="submit" type="submit">Submit <i class="ti-arrow-right"></i></button>
                                     </div>
@@ -159,8 +159,11 @@
           //Get Form Values
           const email = registerForm['user_email'].value;
           const password = registerForm['user_password'].value;
+          const confirm_password = registerForm['confirm_password'].value;
           const firstname = registerForm['user_firstname'].value;
           const lastname = registerForm['user_lastname'].value;
+
+          if(password == confirm_password) {
 
           // to create the new account
             firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -190,9 +193,13 @@
              var errorCode = error.code;
              var errorMessage = error.message;
               console.log("Error Data");
+              alert(errorMessage);
            }); 
+
+            } else {
+                alert("Password is not the same");
+            }
         })
         </script>
     </body>
 </html>
-
