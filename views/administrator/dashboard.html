@@ -303,6 +303,9 @@
                 var uid = user.uid;
                 var user = user;
 
+                console.log(user);
+
+                //$('#display-picture').html(user.displayProfile);
                 $('#display-name').html(user.displayName);
 
                  } else {
@@ -325,8 +328,7 @@
          finalQuery.get().then(function(userSize) {      
             var user_size = userSize.size;
 
-            console.log(user_size);
-
+            
 
              $('#account-count').html(user_size); 
          });
