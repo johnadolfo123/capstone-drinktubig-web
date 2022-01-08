@@ -79,7 +79,7 @@ accountsRef.onSnapshot(snapshot => {
      //        </tr>`;
 
      		  // display user status
-		        if(accounts_status == 'active') {
+		        if(accounts_status == 'Active') {
 		        	var display = '<span class="status-p bg-success">Active</span>';
 		        } else if(accounts_status == 'banned') {
 		       		var display = '<span class="status-p bg-danger">Banned</span>';
@@ -93,7 +93,7 @@ accountsRef.onSnapshot(snapshot => {
                     <td class="accounts-name">${accounts.fullname}</td>
                     <td class="accounts-address">${accounts.usertype}</td>
                     <td class="accounts-sitio">${display}</td>
-                    <td class="accounts-sitio">11/21/2021</td>
+                    <td class="accounts-sitio">${accounts.createdAt}</td>
             </tr>`;
 
         $('#accounts-table').append(item);

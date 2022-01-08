@@ -183,7 +183,8 @@
                 phonenumber: '',
                 profile: '',
                 usertype: 'Businessowner',
-                status: 'active'
+                status: 'Active', 
+                createdAt : firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
                 alert('Successfully Added a New Acccount');
                 location.href = 'index.html'

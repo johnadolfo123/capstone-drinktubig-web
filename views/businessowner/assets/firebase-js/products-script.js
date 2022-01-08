@@ -197,7 +197,7 @@ $(document).ready(function () {
 			Store_Owner_ID: storeOwnerID
 			// Store_ID: getStoreOwnerStoreID,
 			// Store_Name: passStoreName 
-			// // createdAt : firebase.firestore.FieldValue.serverTimestamp()
+			// createdAt : firebase.firestore.FieldValue.serverTimestamp()
 			}).then(function(doc) {
 				console.log("Document written with ID: ", doc.id);
 				$("#addProductsModal").modal('hide');
