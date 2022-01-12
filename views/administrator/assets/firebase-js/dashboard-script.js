@@ -88,12 +88,20 @@ accountsRef.onSnapshot(snapshot => {
 		        // default values lang sa ron;
 		        var accountsCustomerName = "Test test";
 
-             let item =
+            //  let item =
+            //  `<tr data-id="${doc.id}">
+            //         <td class="accounts-name">${accounts.fullname}</td>
+            //         <td class="accounts-address">${accounts.usertype}</td>
+            //         <td class="accounts-sitio">${display}</td>
+            //         <td class="accounts-sitio">${accounts.createdAt}</td>
+            // </tr>`;
+
+              let item =
              `<tr data-id="${doc.id}">
                     <td class="accounts-name">${accounts.fullname}</td>
                     <td class="accounts-address">${accounts.usertype}</td>
                     <td class="accounts-sitio">${display}</td>
-                    <td class="accounts-sitio">${accounts.createdAt}</td>
+                    
             </tr>`;
 
         $('#accounts-table').append(item);

@@ -176,6 +176,15 @@
 
             let fullname = fname + " " + lname; 
             var set_return = 1;
+
+            var currentdate = new Date(); 
+            var datetime = currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear()   
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+
             return db.collection('Users').doc(user.uid).set({
                 fullname: fullname,
                 email: email,
@@ -184,7 +193,8 @@
                 profile: '',
                 usertype: 'Businessowner',
                 status: 'Active', 
-                createdAt : firebase.firestore.FieldValue.serverTimestamp()
+                createdAt : firebase.firestore.FieldValue.serverTimestamp(),
+                dateTest : Firebase.ServerValue.TIMESTAMP
             }).then(() => {
                 alert('Successfully Added a New Acccount');
                 location.href = 'index.html'
