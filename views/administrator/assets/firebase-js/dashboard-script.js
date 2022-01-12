@@ -40,7 +40,7 @@ accountsRef.onSnapshot(snapshot => {
 
 
  const displayAccounts = async (doc) => {
-    console.log('displayAccounts');
+   // console.log('displayAccounts');
 
     let accounts = accountsRef;
     // .startAfter(doc || 0).limit(10000)
@@ -98,7 +98,7 @@ accountsRef.onSnapshot(snapshot => {
 
         $('#accounts-table').append(item);
 
-        console.log(item);
+        //console.log(item);
 
     });
 
@@ -329,7 +329,7 @@ $(document).ready(function () {
 	$("#search-name").keyup(function () {
 		$('#employee-table tbody').html('');
 		let nameKeyword = $("#search-name").val();
-		console.log(nameKeyword);
+		//console.log(nameKeyword);
 		storesRef.orderBy('name', 'asc').startAt(nameKeyword).endAt(nameKeyword + "\uf8ff").get()
 			.then(function (documentSnapshots) {
 				documentSnapshots.docs.forEach(doc => {

@@ -303,7 +303,7 @@
                 var uid = user.uid;
                 var user = user;
 
-                console.log(user);
+                //console.log(user);
 
                 //$('#display-picture').html(user.displayProfile);
                 $('#display-name').html(user.displayName);
@@ -322,13 +322,17 @@
 
          var userQuery = db.collection("Users");
 
-         // use this query for get Customer and Businessowner & all verified
-        var finalQuery = userQuery.where("usertype", "!=" ,"Administrator").where("userstatus", "==", true);
+    
+        // use this query for get Customer and Businessowner & all verified
+        var finalQuery = userQuery.where("status", "==" , "Active");
 
-         finalQuery.get().then(function(userSize) {      
+        //var veryFinalQuery = finalQuery.where("status", "==", "Active");
+       
+         finalQuery.get().then(function(userSize) {
+
             var user_size = userSize.size;
 
-            
+            console.log(user_size);
 
              $('#account-count').html(user_size); 
          });
