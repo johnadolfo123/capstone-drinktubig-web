@@ -44,6 +44,7 @@ storesRef.onSnapshot(snapshot => {
 		 if(store_status == 'Verified') {
 		        	var display = '<span class="status-p bg-success">Verified</span>';
 		        	var display_accept = '';
+		        	var display_decline = '';
 		        } else if(store_status == 'Not-Verified') {
 		        	var display = '<span class="status-p bg-danger">Not Verified</span>';
 		        	var display_accept = `<a href="#acceptStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-accept-stores btn btn-primary btn-sm">
