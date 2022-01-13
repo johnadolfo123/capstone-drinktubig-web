@@ -70,8 +70,8 @@
                                 </div>
                                 <div class="form-gp">
                                     <label for="exampleInputPassword1">Password</label>
-                                    <input type="text" id="user_password">
-                                    <i class="fa fa-unlock-alt"></i>
+                                    <input type="password" id="user_password">
+                                    <i class="fa fa-lock" id="togglePassword"></i>
                                     <div class="mt-3 text-right">
                                     <a href="forgot_password.html">Forgot Password</a></div> 
                                 </div>
@@ -183,8 +183,26 @@
              var errorCode = error.code;
              var errorMessage = error.message;
               console.log("Error Data");
+              alert(errorMessage);
            });
         })
           </script>
+
+
+    <script>
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#user_password");
+
+        togglePassword.addEventListener("click", function () {
+            // toggle the type attribute
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+            
+            // toggle the icon
+            this.classList.toggle("fa-unlock-alt");
+        });
+    </script>
+
+
        </body>
     </html>

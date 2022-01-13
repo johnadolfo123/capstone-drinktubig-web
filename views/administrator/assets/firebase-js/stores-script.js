@@ -49,18 +49,26 @@ storesRef.onSnapshot(snapshot => {
 		        	var display_accept = `<a href="#acceptStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-accept-stores btn btn-primary btn-sm">
 							ACCEPT 
 						</a>`;
+				    var display_decline = `<a href="#declineStoresModal" data-toggle="modal" id="${doc.id}" class="edit js-decline-stores btn btn-danger btn-sm">
+							REMOVE 
+						</a>`;
 		        }
 
+		var image_default = stores.StorePermit; 
+
+		// <td class="stores-phone">${stores.StoreOpen}</td>
         let item =
             `<tr data-id="${doc.id}">
+            		<td class="stores-image"><img style="width:100%;height:200px;" src="${image_default}"></td>
                     <td class="stores-name">${stores.StoreName}</td>
                     <td class="stores-address">${stores.StoreLocation}</td>
                     <td class="stores-phone">${stores.StoreContactNumber}</td>
-                    <td class="stores-phone">${stores.StoreOpen}</td>
+                   
                     <td class="stores-status">${display}</td>
             		<td>
             			${display_accept}
             		</td>
+            		<td>${display_decline}</td>
             		<td>
             			<a href="view_stores_product.html?id=${doc.id}" id="${doc.id}" class="view btn btn-info btn-sm js-view-stores">VIEW</a>
 						</a>
@@ -132,6 +140,45 @@ $(document).ready(function () {
 			// 		});
 			// });
 			$("#acceptStoresModal").modal('hide');
+		}
+	});
+	// DELETE END
+
+		// Accept Store
+	$(document).on('click', '.js-decline-stores', function (e) {
+		e.preventDefault();
+		let id = $(this).attr('id');
+		console.log(id);
+		$('#decline-stores-form').attr('decline-id', id);
+		$('#declineStoresModal').modal('show');
+	});
+
+	$("#decline-stores-form").submit(function (event) {
+		event.preventDefault();
+		let id = $(this).attr('decline-id');
+		let storeStatus = "Decline";
+			if (id != undefined) {
+			db.collection('StoreList').doc(id).delete()
+				.then(function () {
+					console.log("Document successfully delete!");
+					$("#declineStoresModal").modal('hide');
+				})
+				.catch(function (error) {
+					console.error("Error deleting document: ", error);
+				});
+		} else {
+			// let checkbox = $('table tbody input:checked');
+			// checkbox.each(function () {
+			// 	db.collection('employees').doc(this.value).delete()
+			// 		.then(function () {
+			// 			console.log("Document successfully delete!");
+			// 			displayEmployees();
+			// 		})
+			// 		.catch(function (error) {
+			// 			console.error("Error deleting document: ", error);
+			// 		});
+			// });
+			$("#declineStoresModal").modal('hide');
 		}
 	});
 	// DELETE END

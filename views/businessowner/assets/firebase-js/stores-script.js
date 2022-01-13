@@ -78,9 +78,8 @@ storesRef.onSnapshot(snapshot => {
 					// </td>
      //        </tr>`;
 
-     		  // display 
-     		  var image_default = 'https://firebasestorage.googleapis.com/v0/b/drinktubig-bcaf5.appspot.com/o/1.jpg?alt=media&token=8b43dede-991f-41c1-ad08-f8445b7823e3';
-
+     		
+     		var image_default = stores.StoreImage; 
 
 
      		  // display user status
@@ -88,7 +87,7 @@ storesRef.onSnapshot(snapshot => {
 		        	var display = '<span class="status-p bg-success">Verified</span>';
 		        } else if(store_status == 'Not-Verified') {
 		        	var display = '<span class="status-p bg-danger">Not Verified</span>';
-		        }
+		        } 
 
              let item =
              `<tr data-id="${doc.id}">
@@ -98,6 +97,9 @@ storesRef.onSnapshot(snapshot => {
                     <td class="stores-sitio">${stores.StoreSitio}</td>
                     <td class="stores-phone">${stores.StoreContactNumber}</td>
                     <td class="stores-status">${display}</td>
+                    <td class="stores-permit"><a href="view_permit.html?id=${doc.id}" class="permit js-permit-stores btn btn-primary btn-sm">
+							BUSINESS PERMIT 
+						</a></td>
                     <td>
 						<a href="view_openstores.html?id=${doc.id}" class="view js-view-stores btn btn-info btn-sm">
 							VIEW 
@@ -179,9 +181,20 @@ $(document).ready(function () {
 		// default store status
 		let storeStatus = "Not-Verified";
 
-		// set as default;
-     	var let_image_default = 'https://firebasestorage.googleapis.com/v0/b/drinktubig-bcaf5.appspot.com/o/1.jpg?alt=media&token=8b43dede-991f-41c1-ad08-f8445b7823e3';
-
+		//test upload image; 
+		if(testFileUpload == 'store-1.jpg') {
+			var let_image_default = 'https://firebasestorage.googleapis.com/v0/b/drinktubig-bcaf5.appspot.com/o/store-1.jpg?alt=media&token=948c3146-2027-44d1-93cc-daaab31fe934';
+		} else if(testFileUpload == 'store-2.jpg') {
+			var let_image_default = 'https://firebasestorage.googleapis.com/v0/b/drinktubig-bcaf5.appspot.com/o/store-2.jpg?alt=media&token=a9b9d9cd-cca4-459e-979b-91b7d0debdb7';
+		} else if(testFileUpload == 'store-3.jpg') {
+			var let_image_default = 'https://firebasestorage.googleapis.com/v0/b/drinktubig-bcaf5.appspot.com/o/store-3.jpg?alt=media&token=a68a69b3-0eed-4d7f-9b90-72b029be7ce9';
+		} else if(testFileUpload == 'store-4.jpg') {
+			var let_image_default = 'https://firebasestorage.googleapis.com/v0/b/drinktubig-bcaf5.appspot.com/o/store-4.jpg?alt=media&token=ecc188fe-2b5e-4a86-8e3b-a59abc57b06d';
+		} else if(testFileUpload == 'store-5.jpg') {
+			var let_image_default = 'https://firebasestorage.googleapis.com/v0/b/drinktubig-bcaf5.appspot.com/o/store-5.jpg?alt=media&token=2513657e-52e5-484e-bfd9-4914c5058ed7';
+		} else if(testFileUpload == 'store-6.jpg') {
+			var let_image_default = 'https://firebasestorage.googleapis.com/v0/b/drinktubig-bcaf5.appspot.com/o/store-6.jpg?alt=media&token=96269a45-a575-4d91-8b9b-d2c2424d0f3b';
+		}
 
 		uploadTask.on('state_changed', function(snapshot) {
 			 var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -201,7 +214,8 @@ $(document).ready(function () {
 			StoreContactNumber: storesPhone,
 			StoreLat: storeLatitude,
 			StoreLong: storeLongtitude,
-			StoreStatus: storeStatus
+			StoreStatus: storeStatus,
+			StorePermit: ''
 			// createdAt : firebase.firestore.FieldValue.serverTimestamp()
 			}).then(function(doc) {
 				$("#addStoresModal").modal('hide');

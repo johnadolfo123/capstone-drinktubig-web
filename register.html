@@ -66,19 +66,19 @@
                                     <div></div>
                                 </div> -->
                                  <div class="form-gp">
-                                    <label for="exampleInputFirstName">FirstName</label>
+                                    <label for="exampleInputFirstName">First Name</label>
                                     <input type="text" id="user_firstname">
                                    <i class="fa fa-user"></i>
                                     <div></div>
                                 </div>
                                  <div class="form-gp">
-                                    <label for="exampleInputLastName">LastName</label>
+                                    <label for="exampleInputLastName">Last Name</label>
                                     <input type="text" id="user_lastname">
                                    <i class="fa fa-user"></i>
                                     <div></div>
                                 </div>
                                 <div class="form-gp">
-                                    <label for="exampleInputEmail">Email address</label>
+                                    <label for="exampleInputEmail">Email Address</label>
                                     <input type="email" id="user_email">
                                    <i class="fa fa-envelope-o"></i>
                                     <div></div>
@@ -86,13 +86,13 @@
                                 <div class="form-gp">
                                     <label for="exampleInputPassword">Password</label>
                                     <input type="password" id="user_password">
-                                    <i class="fa fa-unlock-alt"></i>
+                                    <i class="fa fa-lock" id="togglePassword"></i>
                                     <div></div>
                                 </div>
                                 <div class="form-gp">
                                     <label for="exampleConfirmPassword">Confirm Password</label>
-                                    <input type="confirm_password" id="confirm_password">  
-                                    <i class="fa fa-unlock-alt"></i>
+                                    <input type="password" id="confirm_password">  
+                                    <i class="fa fa-lock" id="toggleConfirmPassword"></i>
                                     <div></div>
                                 </div>
                                     <div class="submit-btn-area">
@@ -177,14 +177,12 @@
             let fullname = fname + " " + lname; 
             var set_return = 1;
 
-            var currentdate = new Date(); 
-            var datetime = currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
-                + currentdate.getFullYear()   
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds();
+            // get createdAt
+            var options = { hour12: false, year: 'numeric', month: 'long', day: 'numeric', hour: "numeric", minute: "numeric", second: "numeric" };
+            var today  = new Date();
+            var displayDate = today.toLocaleDateString("en-US", options);
 
+            
             return db.collection('Users').doc(user.uid).set({
                 fullname: fullname,
                 email: email,
@@ -193,8 +191,7 @@
                 profile: '',
                 usertype: 'Businessowner',
                 status: 'Active', 
-                createdAt : firebase.firestore.FieldValue.serverTimestamp(),
-                dateTest : Firebase.ServerValue.TIMESTAMP
+                createdAt: displayDate
             }).then(() => {
                 alert('Successfully Added a New Acccount');
                 location.href = 'index.html'
@@ -212,5 +209,36 @@
             }
         })
         </script>
+
+     <script>
+        // password
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#user_password");
+
+        togglePassword.addEventListener("click", function () {
+            // toggle the type attribute
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+            
+            // toggle the icon
+            this.classList.toggle("fa-unlock-alt");
+        });
+
+        //confirm_password
+        const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
+        const confirm_password = document.querySelector("#confirm_password");
+
+        toggleConfirmPassword.addEventListener("click", function () {
+            // toggle the type attribute
+            const type = confirm_password.getAttribute("type") === "password" ? "text" : "password";
+            confirm_password.setAttribute("type", type);
+            
+            // toggle the icon
+            this.classList.toggle("fa-unlock-alt");
+        });
+    </script>
+
+
+
     </body>
 </html>
